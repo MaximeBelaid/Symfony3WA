@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>{%  block titre %}|Admin {% endblock %}</title>
+    </head>
+    <body>
+        <div>
+            {% block content %}
+                test
+            {% endblock %}
+        </div>
+
+        {# SIDEBAR #}
+        {% block sidebar %}
+        <div>
+            <ul>
+                <li>Catégorie 1</li>
+                <li>Catégorie 2</li>
+            </ul>
+        </div>
+        {% endblock %}
+    </body>
+</html>

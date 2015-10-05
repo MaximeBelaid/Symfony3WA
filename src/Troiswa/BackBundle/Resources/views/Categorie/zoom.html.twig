@@ -1,0 +1,30 @@
+{%  extends "TroiswaBackBundle::layout-bo.html.twig" %}
+
+{% block content %}
+
+
+        <a href="{{ path("troiswa_back_categorie") }}">Back</a>
+
+        <div class="col-md-6">
+                <div class="box box-solid">
+                        <div class="box-header with-border">
+                                <i class="fa fa-text-width"></i>
+                                <h3 class="box-title">{{ categorie.title ~" : "~ categorie.id }}</h3>
+                        </div><!-- /.box-header -->
+                        <div class="box-body">
+                                <blockquote>
+                                        <p>{{ categorie.description }}</p>
+                                        <small>Date <cite title="Source Title">{{ categorie.date_created|date("d/m/Y")  }}</cite></small>
+                                        <br>
+                                        <p>1. Nombre de caractère de "description" : {{ categorie.description|striptags|length }}</p>
+                                        {% if categorie.id == 2 %}
+                                                <p>2. Description interprétée : {{ categorie.description|raw }}</p>
+                                        {% endif %}
+                                        {% if categorie.id == 1 %}
+                                                <p>3. Description avec saut de ligne : {{ categorie.description|nl2br  }}</p>
+                                        {% endif %}
+                                </blockquote>
+                        </div><!-- /.box-body -->
+                </div><!-- /.box -->
+        </div><!-- ./col -->
+{% endblock  %}

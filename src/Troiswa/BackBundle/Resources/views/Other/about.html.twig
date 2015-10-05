@@ -1,0 +1,113 @@
+{%  extends "TroiswaBackBundle::layout_test.html.twig" %}
+
+{%  block titre %} About{{ parent() }}{% endblock %}
+
+{%  block content %}
+        <h1>About</h1>
+        <ul>
+        {# lien classique #}
+            <li><a href="{{ path('troiswa_back_page_contact') }}">Contact</a></li>
+
+        {# lien dynamique #}
+            <li><a href="{{ path('troiswa_back_product_show', {id:12 }) }}">Page produit show</a></li>
+
+        {# lien dynamique #}
+            <li><a href="{{ path('troiswa_back_etudiant', {prenom:"Maxime", nom:"Belaid"}) }}">Etudiant</a></li>
+        </ul>
+        {% set name = "Maxime" %}
+        {% set test = "3wa" %}
+        {{ name }}
+        {{ dump(name) }}
+        {{ name~" "~test }}
+        {% if name == "Maxime" %}
+            <p>Hello Maxime !</p>
+        {% endif %}
+        {% for i in 0..10 %}
+            {{ i }}
+        {% endfor %}
+        <ul>
+        {% for key,produit in produits %}
+            <li>{#{{ dump(produit) }}#}
+            {#{{ produit['title'] }}#}
+                {% if loop.first %}
+                    Ceci est le premier article !
+                {% endif %}
+            Titre : {{ produit.title|default("Titre par défaut pour l'article 4") }} //
+            Description : {{ produit.description }} //
+            Date : {{ produit.date_created|date("d/m/Y")  }}
+            </li>
+        {% endfor %}
+        </ul>
+        <p>Il y a {{ produits|length }} articles</p>
+
+        <ul>
+        {% for key,produit in produits|reverse %}
+            <li>
+                Titre : {{ produit.title|default("Titre par défaut pour l'article 4") }} //
+                Description : {{ produit.description }} //
+                Date : {{ produit.date_created|date("m/d/Y")  }}
+            </li>
+        {% endfor %}
+        </ul>
+
+        <ul>
+            {% for key,produit in produits|slice(1,2) %}
+                <li>
+                    Titre : {{ produit.title|default("Titre par défaut pour l'article 4") }} //
+                    Description : {{ produit.description }} //
+                    Date : {{ produit.date_created|date("m/d/Y")  }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <ul>
+            {% set total_prix = 0 %}
+            {% for key,produit in produits %}
+                <li>
+                    Titre : {{ produit.title|default("Titre par défaut pour l'article 4")|upper  }} //
+                    Description : {{ produit.description }} //
+                    Date : {{ produit.date_created|date("m/d/Y")  }}
+                    {% set total_prix = total_prix + produit.prix %}
+                </li>
+            {% endfor %}
+        </ul>
+        <p>Le total des prix est de {{ total_prix }} €</p>
+
+        <ul>
+        {% for i in range(0, 10, 2) %}
+            <li>
+            {{ i }}
+            </li>
+        {% endfor %}
+        </ul>
+
+        <p>{{ prenom~" "~nom }}</p>
+
+        <ul>
+            {% for key,produit in produits %}
+                {% if produit.id is odd %}
+                <li>
+                    Titre : {{ produit.title|default("Titre par défaut pour l'article 4")|upper  }} //
+                    Description : {{ produit.description }} //
+                    Date : {{ produit.date_created|date("m/d/Y")  }}
+                </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+        {% if mischievous is defined %}
+            {{ mischievous }}
+        {% endif %}
+
+        <ul>
+            {% for key,produit in produits if produit.title is not empty %}
+                    <li>
+                        Titre : {{ produit.title  }} //
+                        Description : {{ produit.description }} //
+                        Date : {{ produit.date_created|date("m/d/Y")  }}
+                    </li>
+            {% endfor %}
+        </ul>
+{% endblock %}
+
+{% block sidebar %} {% endblock %}
