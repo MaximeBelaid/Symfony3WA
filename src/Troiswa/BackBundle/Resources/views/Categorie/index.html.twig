@@ -55,7 +55,7 @@
                         <td>{{  categorie.id}}</td>
                         <td> {{ categorie.title }}</td>
                         <td>{{ categorie.date_created|date("d/m/Y")  }}</td>
-                        <td> {{ categorie.description|raw|nl2br  }}</td>
+                        <td> {{ categorie.description|raw  }}</td>
                         {% if categorie.active %}
                             <td><span class="label label-success">Actif</span></td>
                         {% else %}
@@ -63,13 +63,13 @@
                         {% endif %}
                         <td>
                             <div class="box-body">
-                                <a  href="{{ path("troiswa_back_categorie_show",{id: categorie.id }) }}" class="btn btn-app">
+                                <a  href="{{ path("troiswa_back_categorie_show",{id: categorie.id }) }}" class="btn">
                                     <i class="fa fa-play"></i> Voir
                                 </a>
-                                <a class="btn btn-app">
+                                <a class="btn ">
                                     <i class="fa fa-edit"></i> Editer
                                 </a>
-                                <a class="btn btn-app">
+                                <a class="">
                                     <i class="fa fa-trash"></i> Supprimer
                                 </a>
                             <div>

@@ -1,9 +1,63 @@
-{%  extends "TroiswaBackBundle::layout_test.html.twig" %}
+{%  extends "TroiswaBackBundle::layout-bo.html.twig" %}
 
 {%  block titre %}Contact{{ parent() }}{% endblock %}
 
+{% block titreContent %}Contact{%  endblock %}
+
 {% block content %}
-    <p>Nouveau contenu</p>
-    {{ parent() }}
+<div class="row">
+    <div class="col-md-12">
+
+        {% for flashMessage in app.session.flashbag.get("success_contact") %}
+
+            <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4>	<i class="icon fa fa-check"></i> Alert!</h4>
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        <div class="row">
+            <div class="col-md-6">
+                {{ form_start(formContact) }}
+
+                        {#{{ form_row(formContact.email) }}#}
+                            {# équivalent aux trois lignes ci-dessous#}
+
+                        <div class="form-group">
+                            {{ form_label(formContact.email,"Entre ton email",{ label_attr:{class:"form-label"} }) }} {# <label> #}
+                            {{ form_widget(formContact.email,{attr:{class:"form-control", placeholder:"ton email..."}, id:"widget-mail"}) }} {# <input> #}
+                            {{ form_errors(formContact.email) }} {# <ul> <li></li> </ul> #}
+                        </div>
+                        <div class="form-group">
+                            {{ form_label(formContact.firstname,"Entre ton prénom",{ label_attr:{class:"form-label"} }) }}
+                            {{ form_widget(formContact.firstname,{attr:{class:"form-control", placeholder:"ton prénom..."}, id:"widget-firstname"}) }}
+                            {{ form_errors(formContact.firstname) }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(formContact.lastname,"Entre ton nom",{ label_attr:{class:"form-label"} }) }}
+                            {{ form_widget(formContact.lastname,{attr:{class:"form-control", placeholder:"ton nom..."}, id:"widget-lastname"}) }}
+                            {{ form_errors(formContact.lastname) }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_label(formContact.content,"Entre ton commentaire",{ label_attr:{class:"form-label"} }) }}
+                            {{ form_widget(formContact.content,{attr:{class:"form-control", placeholder:"ton commentaire..."}, id:"widget-content"}) }}
+                            {{ form_errors(formContact.content) }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_widget(formContact.send,{label:"Valider",attr:{class:"form-control"}, id:"widget-mail"}) }}
+                        </div>
+                {{ form_end(formContact) }}
+            </div>
+        </div>
+
+        {# affiche intégralement le formulaire
+        {{ form(formContact) }}
+        #}
+    </div>
+</div>
 {% endblock %}
 {# toto #}

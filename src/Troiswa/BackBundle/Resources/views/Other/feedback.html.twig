@@ -1,0 +1,23 @@
+{%  extends "TroiswaBackBundle::layout-bo.html.twig" %}
+
+{%  block titre %}Feedback{{ parent() }}{% endblock %}
+
+{% block titreContent %}Feedback{%  endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+
+            {% for flashMessage in app.session.flashbag.get("success_feedback") %}
+
+                <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4>	<i class="icon fa fa-check"></i> Alert!</h4>
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+            {{ form(formFeedback) }}
+        </div>
+    </div>
+{% endblock %}
+{# toto #}

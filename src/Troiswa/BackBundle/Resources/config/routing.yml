@@ -39,4 +39,7 @@ troiswa_back_admin:
     path:     /
     defaults: { _controller: TroiswaBackBundle:Main:admin }
 
+troiswa_back_page_feedback:
+    path:     /feedback
+    defaults: { _controller: TroiswaBackBundle:Main:feedback }
 
