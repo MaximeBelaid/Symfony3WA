@@ -12,6 +12,7 @@ namespace Troiswa\BackBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class MainController extends Controller
 {
@@ -19,17 +20,46 @@ class MainController extends Controller
     {
         //return new Response("Hello");
         $formulaireContact = $this->createFormBuilder()
-                                    ->add("firstname","text")
-                                    ->add("lastname","text")
-                                    ->add("email","email")
-                                    ->add("content","textarea")
+                                    ->add("firstname","text",
+                                        [
+                                            "constraints"=>[new Assert\NotBlank(["message"=>"N'oublie pas d'entrer ton prénom"]),  new Assert\Length(array(
+                                                'min'        => 2,
+                                                'minMessage' => 'Ton prénom doit avoir au moins {{ limit }} caractères'
+                                            )) ],
+
+                                            "required"=>false  //false = désactive la validation html5 pour un champ
+                                        ])
+                                    ->add("lastname","text",
+                                        [
+                                            "constraints"=>[new Assert\NotBlank(["message"=>"N'oublie pas d'entrer ton nom"])],
+                                            "required"=>false  //false = désactive la validation html5 pour un champ
+                                        ])
+                                    ->add("email","email",
+                                        [
+                                            "constraints"=>[new Assert\NotBlank(["message"=>"N'oublie pas d'entrer ton email"]), new Assert\Email(array(
+                                                'message' => 'Ton email bizarre "{{ value }}" n\'est pas valide.',
+                                                'checkMX' => true,
+                                            ))],
+                                            "required"=>false  //false = désactive la validation html5 pour un champ
+                                        ])
+                                    ->add("content","textarea",
+                                        [
+                                            "constraints"=>[new Assert\NotBlank(["message"=>"N'oublie pas d'entrer ta description"]),  new Assert\Length(array(
+                                                'min'        => 10,
+                                                'max'        => 100,
+                                                'minMessage' => 'Your content must be at least {{ limit }} characters long',
+                                                'maxMessage' => 'Your content cannot be longer than {{ limit }} characters',
+                                            ))],
+                                            "required"=>false  //false = désactive la validation html5 pour un champ
+                                        ])
                                     ->add("send","submit")
                                     ->getForm(); // récupère le formulaire
+        /*
         if("POST"===$request->getMethod())
         {
             //die(dump($request->request->all()));
             $formulaireContact->bind($request);
-            if($formulaireContact->isValid())
+            if($formulaireContact->isValid()) //test du Token
             {
                 $data=$formulaireContact->getData();
                 //die(dump($data));
@@ -49,6 +79,27 @@ class MainController extends Controller
                     $this->get("session")->getFlashBag()->add("success_contact","Le mail a bien été envoyé");
                 return $this->redirectToRoute("troiswa_back_page_contact");
             }
+        }*/ /* Equivalent ci-dessous */
+
+        $formulaireContact->handleRequest($request);
+        if($formulaireContact->isValid()) //test du Token
+        {
+            $data=$formulaireContact->getData();
+            $message= \Swift_Message::newInstance()
+                ->setSubject('Hello Maxime BELAID !!!!!!!')
+                ->setFrom('maxime.belaid@gmail.com')
+                ->setTo('maxime.belaid@gmail.com')
+                ->setBody(
+                    $this->renderView(
+                        "TroiswaBackBundle:Emails:contact.html.twig",
+                        array("data"=>$data)
+                    ),
+                    'text/html'
+                );
+            $hasSend = $this->get("mailer")->send($message);
+            if($hasSend)
+                $this->get("session")->getFlashBag()->add("success_contact","Le mail a bien été envoyé");
+            return $this->redirectToRoute("troiswa_back_page_contact");
         }
         return $this->render("TroiswaBackBundle:Other:contact.html.twig",["formContact"=>$formulaireContact->createView()]);
     }
@@ -99,7 +150,7 @@ class MainController extends Controller
 
     public function adminAction()
     {
-        return $this->render("TroiswaBackBundle:Main:admin.html.twig");
+        return $this->render("TroiswaBackBundle:Main:admin.html.twig",["prenom"=>"Maxime BELAID"]);
     }
 
     public function feedbackAction(Request $request)
@@ -108,15 +159,27 @@ class MainController extends Controller
             ->add("page","url")
             ->add("bug",'choice', array(
                 'choices' => array(
-                    'integration'   => 'Integration',
-                    'developemment' => 'Dévelopemment',
+                    'integration'   => 'Intégration',
+                    'developpemment' => 'Développemment',
                     'autre'   => 'Autre',
+                ),
+                'constraints' => new Assert\Choice(
+                    array(
+                        'choices' =>
+                            array(
+                                'integration',
+                                'developpemment',
+                                'autre'
+                            ),
+                        'message' => "Avec ta d'enculé!",
+                    )
                 ),
                 'multiple' => false,
                 'expanded' => false))
             ->add("firstname","text")
             ->add("email","email")
             ->add("date",'date', array(
+                "constraints" => new Assert\Date(),
                 'input'  => 'datetime',
                 'widget' => 'choice',
                 'years' => array(date("Y")-1,date("Y"))

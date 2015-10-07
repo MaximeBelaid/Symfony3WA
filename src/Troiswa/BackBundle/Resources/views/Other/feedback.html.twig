@@ -4,6 +4,8 @@
 
 {% block titreContent %}Feedback{%  endblock %}
 
+{% form_theme formFeedback "TroiswaBackBundle:Form:fields.html.twig" %}
+
 {% block content %}
     <div class="row">
         <div class="col-md-12">
@@ -16,7 +18,7 @@
                     {{ flashMessage }}
                 </div>
             {% endfor %}
-            {{ form(formFeedback) }}
+            {{ form(formFeedback,{attr:{novalidate:"novalidate"}}) }}
         </div>
     </div>
 {% endblock %}

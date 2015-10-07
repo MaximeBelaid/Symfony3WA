@@ -4,6 +4,21 @@
 
 {% block titreContent %}Contact{%  endblock %}
 
+{#{% form_theme formContact "TroiswaBackBundle:Form:fields.html.twig" %}#}
+
+{% form_theme formContact _self %}
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+            {%- for error in errors -%}
+                <div class="alert alert-warning alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-warning"></i> Alert!</h4>
+                    {{ error.message }}
+                </div>
+            {%- endfor -%}
+    {%- endif -%}
+{%- endblock -%}
+
 {% block content %}
 <div class="row">
     <div class="col-md-12">
@@ -19,32 +34,56 @@
 
         <div class="row">
             <div class="col-md-6">
-                {{ form_start(formContact) }}
+                {{ form_start(formContact,{attr:{novalidate:"novalidate"}}) }} {# novalidate = désactive la validation html5 pour TOUT le formulaire #}
 
                         {#{{ form_row(formContact.email) }}#}
                             {# équivalent aux trois lignes ci-dessous#}
 
                         <div class="form-group">
-                            {{ form_label(formContact.email,"Entre ton email",{ label_attr:{class:"form-label"} }) }} {# <label> #}
-                            {{ form_widget(formContact.email,{attr:{class:"form-control", placeholder:"ton email..."}, id:"widget-mail"}) }} {# <input> #}
-                            {{ form_errors(formContact.email) }} {# <ul> <li></li> </ul> #}
+                            {% if formContact.email.vars.errors|length %}
+                                <div class="has-error">
+                            {% endif %}
+                                    {{ form_label(formContact.email,"Entre ton email",{ label_attr:{class:"form-label"} }) }} {# <label> #}
+                                    {{ form_widget(formContact.email,{attr:{class:"form-control", placeholder:"ton email..."}, id:"widget-mail"}) }} {# <input> #}
+                                    {{ form_errors(formContact.email) }} {# <ul> <li></li> </ul> #}
+                            {% if formContact.email.vars.errors|length %}
+                                </div>
+                            {% endif %}
                         </div>
                         <div class="form-group">
-                            {{ form_label(formContact.firstname,"Entre ton prénom",{ label_attr:{class:"form-label"} }) }}
-                            {{ form_widget(formContact.firstname,{attr:{class:"form-control", placeholder:"ton prénom..."}, id:"widget-firstname"}) }}
-                            {{ form_errors(formContact.firstname) }}
+                            {% if formContact.firstname.vars.errors|length %}
+                                <div class="has-error">
+                            {% endif %}
+                                    {{ form_label(formContact.firstname,"Entre ton prénom",{ label_attr:{class:"form-label"} }) }}
+                                    {{ form_widget(formContact.firstname,{attr:{class:"form-control", placeholder:"ton prénom..."}, id:"widget-firstname"}) }}
+                                    {{ form_errors(formContact.firstname) }}
+                            {% if formContact.firstname.vars.errors|length %}
+                                </div>
+                            {% endif %}
                         </div>
 
                         <div class="form-group">
-                            {{ form_label(formContact.lastname,"Entre ton nom",{ label_attr:{class:"form-label"} }) }}
-                            {{ form_widget(formContact.lastname,{attr:{class:"form-control", placeholder:"ton nom..."}, id:"widget-lastname"}) }}
-                            {{ form_errors(formContact.lastname) }}
+                            {% if formContact.lastname.vars.errors|length %}
+                                <div class="has-error">
+                            {% endif %}
+                                    {{ form_label(formContact.lastname,"Entre ton nom",{ label_attr:{class:"form-label"} }) }}
+                                    {{ form_widget(formContact.lastname,{attr:{class:"form-control", placeholder:"ton nom..."}, id:"widget-lastname"}) }}
+                                    {{ form_errors(formContact.lastname) }}
+                            {% if formContact.lastname.vars.errors|length %}
+                                </div>
+                            {% endif %}
                         </div>
 
                         <div class="form-group">
-                            {{ form_label(formContact.content,"Entre ton commentaire",{ label_attr:{class:"form-label"} }) }}
-                            {{ form_widget(formContact.content,{attr:{class:"form-control", placeholder:"ton commentaire..."}, id:"widget-content"}) }}
-                            {{ form_errors(formContact.content) }}
+                            {% if formContact.content.vars.errors|length %}
+                                <div class="has-error">
+                            {% endif %}
+                                    {{ form_label(formContact.content,"Entre ton commentaire",{ label_attr:{class:"form-label"} }) }}
+                                    {{ form_widget(formContact.content,{attr:{class:"form-control", placeholder:"ton commentaire..."}, id:"widget-content"}) }}
+                                    {{ form_errors(formContact.content) }}
+                                {% if formContact.content.vars.errors|length %}
+                                </div>
+                            {% endif %}
                         </div>
 
                         <div class="form-group">
