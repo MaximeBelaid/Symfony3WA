@@ -12,13 +12,15 @@ troiswa_back_about:
 
 
 troiswa_back_product_test:
-    path:     /produit/test
+    path:     /product/test
     defaults: { _controller: TroiswaBackBundle:Product:test }
 
 
 troiswa_back_product_show:
-    path:     /produit/{id}
+    path:     /product/{id}
     defaults: { _controller: TroiswaBackBundle:Product:show }
+    requirements:
+        id : \d+
 
 troiswa_back_etudiant:
     path:     /etudiant/{prenom}/{nom}
@@ -42,4 +44,8 @@ troiswa_back_admin:
 troiswa_back_page_feedback:
     path:     /feedback
     defaults: { _controller: TroiswaBackBundle:Main:feedback }
+
+troiswa_back_product_create:
+    path:     /product/create
+    defaults: { _controller: TroiswaBackBundle:Product:create }
 
