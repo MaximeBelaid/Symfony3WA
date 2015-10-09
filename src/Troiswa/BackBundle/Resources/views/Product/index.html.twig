@@ -1,10 +1,44 @@
-<!doctype html>
-<html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>Document</title>
-    </head>
-    <body>
-        <h1>Produit {{ idProd }}</h1>
-    </body>
-</html>
+{%  extends "TroiswaBackBundle::layout-bo.html.twig" %}
+
+{%  block titre %}Zoom{{ parent() }}{% endblock %}
+
+{% block titreContent %}Zoom produit{%  endblock %}
+
+{% block content %}
+
+
+    <div class="col-md-6">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-text-width"></i>
+                <h3 class="box-title">{{ product.title ~" ("~ product.id }})</h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <blockquote>
+                    <p>"{{ product.description }}"</p>
+                    <p>{{ product.price }} €</p>
+                    <p>x{{ product.quantity }}</p>
+                    <small>Date <cite title="Source Title">{{ product.dateCreated|date("d/m/Y")  }}</cite></small>
+                    <br>
+                </blockquote>
+                <div class="box-body">
+                    <a class="btn btn-success" href="{{ path("troiswa_back_product_edit",{id: product.id }) }}">
+                        <i class="fa fa-edit"></i> Editer
+                    </a>
+                    <a class="btn btn-danger" href="{{ path("troiswa_back_product_delete",{id: product.id }) }}">
+                        <i class="fa fa-edit"></i> Supprimer
+                    </a>
+                    {#
+                    {{ form_start(delete_form) }}
+                    <button class="btn btn-danger">
+                        <i class="fa fa-trash"></i> Supprimer
+                    </button>
+                    {{ form_end(delete_form) }}
+                    #}
+                <div>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+        <h2><a href="{{ path("troiswa_back_product") }}">Back</a></h2>
+    </div><!-- ./col -->
+
+{% endblock %}

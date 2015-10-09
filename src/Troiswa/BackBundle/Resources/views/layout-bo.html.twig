@@ -3,13 +3,29 @@
 {% block body %}
     <div class="wrapper">
 
-        {%  include 'TroiswaBackBundle:Partials:header.html.twig' %}
+        {%  include 'TroiswaBackBundle:Partials:header.html.twig' only %}
 
         {%  include 'TroiswaBackBundle:Partials:sidebar.html.twig'  with{"pre":prenom|default("Johnny Depp")} only %}
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
+            <section class="content-header">
+
+
+                    {% for flashMessage in app.session.flashbag.get("success") %}
+
+                        <div class="alert alert-success alert-dismissable">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <h4>	<i class="icon fa fa-check"></i> {{ flashMessage }}</h4>
+                            {% block customMessageFlash %}
+                            {% endblock %}
+
+                        </div>
+
+                    {% endfor %}
+
+            </section>
             <section class="content-header">
                 <h1>
                     {% block titreContent %}
@@ -18,8 +34,8 @@
                     <small>Version 2.0</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                    <li class="active">Dashboard</li>
+                    <li><a href="{{ path("troiswa_back_admin") }}"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li class="active">{{ app.request.attributes.get("_route") }}</li>
                 </ol>
             </section>
 

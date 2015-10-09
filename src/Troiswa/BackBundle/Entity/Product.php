@@ -53,7 +53,7 @@ class Product
      * @var float
      * @Assert\NotBlank(message="Obligatoire")
      * @Assert\Regex(
-     *     pattern="/^[0-9]{1,}(,)?[0-9]{1,2}$/",
+     *     pattern="/^[0-9]{1,}(\.)?[0-9]{0,2}$/",
      *     message="This value is not valid.")
      * @ORM\Column(name="price", type="float")
      */

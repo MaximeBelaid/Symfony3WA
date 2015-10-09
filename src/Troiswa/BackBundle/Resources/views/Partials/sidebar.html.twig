@@ -5,7 +5,7 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src={{ asset("img/jd.jpg") }} class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
                 <p>{{ pre }}</p>
@@ -34,17 +34,24 @@
                         </span> <i class="fa fa-angle-left pull-right"></i>
                 </a>
             </li>
-            <li >
-                <a href="{{ path("troiswa_back_product_create") }}">
-                    <i class="fa fa-files-o"></i>
-                    <span>Produits</span>
-                    <span class="label label-primary pull-right">4</span>
+            <li class="treeview">
+                <a href="">
+                    <i class="fa fa-edit"></i> <span>Produits</span> <small class="label pull-right bg-blue">4</small>
+
                 </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ path("troiswa_back_product") }}"><i class="fa fa-circle-o"></i> Tous</a></li>
+                    <li><a href="{{ path("troiswa_back_product_create") }}"><i class="fa fa-circle-o"></i> Ajouter</a></li>
+                </ul>
             </li>
             <li>
-                <a href="{{ path("troiswa_back_categorie") }}">
+                <a href="">
                     <i class="fa fa-th"></i> <span>Categories</span> <small class="label pull-right bg-green">new</small>
                 </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ path("troiswa_back_categorie") }}"><i class="fa fa-circle-o"></i> Tous</a></li>
+
+                </ul>
             </li>
 
             <li >

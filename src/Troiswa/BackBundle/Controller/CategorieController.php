@@ -10,12 +10,13 @@ namespace Troiswa\BackBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Troiswa\BackBundle\Entity\Categorie;
 
 class CategorieController extends Controller
 {
     public function indexAction()
     {
-        $categories = [
+        /*$categories = [
             1 => [
                 "id" => 1,
                 "title" => "Homme",
@@ -37,14 +38,14 @@ class CategorieController extends Controller
                 "date_created" => new \DateTime('-1 Days'),
                 "active" => false
             ],
-        ];
+        ];*/
 
         return $this->render("TroiswaBackBundle:Categorie:index.html.twig", ["categories"=>$categories]);
     }
 
     public function showAction($id)
     {
-        $categories = [
+        /*$categories = [
             1 => [
                 "id" => 1,
                 "title" => "Homme",
@@ -66,7 +67,7 @@ class CategorieController extends Controller
                 "date_created" => new \DateTime('-1 Days'),
                 "active" => false
             ],
-        ];
+        ];*/
 
         if(array_key_exists($id, $categories))
         {
@@ -76,5 +77,10 @@ class CategorieController extends Controller
         }
 
         return $this->render("TroiswaBackBundle:Categorie:zoom.html.twig", ["categorie"=>$uneCategorie]);
+    }
+
+    public function createAction(Request $request)
+    {
+
     }
 }

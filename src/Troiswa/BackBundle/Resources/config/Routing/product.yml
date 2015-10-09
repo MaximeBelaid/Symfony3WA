@@ -1,0 +1,29 @@
+troiswa_back_product_test:
+    path:     /test
+    defaults: { _controller: TroiswaBackBundle:Product:test }
+
+troiswa_back_product_show:
+    path:     /{id}
+    defaults: { _controller: TroiswaBackBundle:Product:show }
+    requirements:
+        id : \d+
+
+troiswa_back_product_create:
+    path:     /create
+    defaults: { _controller: TroiswaBackBundle:Product:create }
+
+troiswa_back_product:
+    path:   /
+    defaults: { _controller: TroiswaBackBundle:Product:index }
+
+troiswa_back_product_edit:
+    path:     /edit/{id}
+    defaults: { _controller: TroiswaBackBundle:Product:edit }
+    requirements:
+            id : \d+
+
+troiswa_back_product_delete:
+    path:     /delete/{id}
+    defaults: { _controller: TroiswaBackBundle:Product:delete }
+    requirements:
+            id : \d+

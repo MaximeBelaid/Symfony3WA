@@ -10,32 +10,9 @@ troiswa_back_about:
     path:     /about
     defaults: { _controller: TroiswaBackBundle:Main:about }
 
-
-troiswa_back_product_test:
-    path:     /product/test
-    defaults: { _controller: TroiswaBackBundle:Product:test }
-
-
-troiswa_back_product_show:
-    path:     /product/{id}
-    defaults: { _controller: TroiswaBackBundle:Product:show }
-    requirements:
-        id : \d+
-
 troiswa_back_etudiant:
     path:     /etudiant/{prenom}/{nom}
     defaults: { _controller: TroiswaBackBundle:Main:etudiant }
-
-troiswa_back_categorie:
-    path:     /categorie
-    defaults: { _controller: TroiswaBackBundle:Categorie:index }
-
-troiswa_back_categorie_show:
-    path:     /categorie/{id}
-    defaults: { _controller: TroiswaBackBundle:Categorie:show }
-    requirements:
-        id : \d+
-        #id: "[0-9]+"
 
 troiswa_back_admin:
     path:     /
@@ -45,7 +22,10 @@ troiswa_back_page_feedback:
     path:     /feedback
     defaults: { _controller: TroiswaBackBundle:Main:feedback }
 
-troiswa_back_product_create:
-    path:     /product/create
-    defaults: { _controller: TroiswaBackBundle:Product:create }
+troiswa_back_resource_product:
+    resource: "@TroiswaBackBundle/Resources/config/Routing/product.yml"
+    prefix: /product
 
+troiswa_back_resource_categorie:
+    resource: "@TroiswaBackBundle/Resources/config/Routing/categorie.yml"
+    prefix: /categorie
