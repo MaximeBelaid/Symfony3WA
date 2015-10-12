@@ -11,6 +11,8 @@ namespace Troiswa\BackBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Troiswa\BackBundle\Entity\Categorie;
+use Symfony\Component\HttpFoundation\Request;
+use Troiswa\BackBundle\Form\CategorieType;
 
 class CategorieController extends Controller
 {
@@ -38,9 +40,15 @@ class CategorieController extends Controller
                 "date_created" => new \DateTime('-1 Days'),
                 "active" => false
             ],
-        ];*/
+        ];
 
-        return $this->render("TroiswaBackBundle:Categorie:index.html.twig", ["categories"=>$categories]);
+        return $this->render("TroiswaBackBundle:Categorie:index.html.twig", ["categories"=>$categories]);*/
+        $em=$this->getDoctrine()->getManager();
+        $categories=$em->getRepository("TroiswaBackBundle:Categorie")
+            ->findAll(); // http://www.doctrine-project.org/api/orm/2.2/class-Doctrine.ORM.EntityRepository.html
+
+        return $this->render("TroiswaBackBundle:Categorie:all.html.twig",["categories"=>$categories]);
+
     }
 
     public function showAction($id)
@@ -67,7 +75,7 @@ class CategorieController extends Controller
                 "date_created" => new \DateTime('-1 Days'),
                 "active" => false
             ],
-        ];*/
+        ];
 
         if(array_key_exists($id, $categories))
         {
@@ -77,10 +85,78 @@ class CategorieController extends Controller
         }
 
         return $this->render("TroiswaBackBundle:Categorie:zoom.html.twig", ["categorie"=>$uneCategorie]);
+        */
+        $em=$this->getDoctrine()->getManager();
+        $categorie=$em->getRepository("TroiswaBackBundle:Categorie")
+            ->find($id);
+
+        if(!$categorie)
+        {
+            throw $this->createNotFoundException("La catégorie n'existe pas");
+        }
+
+        return $this->render('TroiswaBackBundle:Categorie:index.html.twig', array(
+            'categorie'      => $categorie,
+        ));
     }
 
     public function createAction(Request $request)
     {
+        $categorie = new Categorie();
 
+        $formulaireCategorie = $this->createForm(new CategorieType(), $categorie)
+            ->add("enregistrer","submit");
+        $formulaireCategorie->handleRequest($request);
+        if($formulaireCategorie->isValid()){
+            $em= $this->getDoctrine()->getManager(); // Récupérer doctrine (se connecter à la base)
+            $em->persist($categorie); // A partir de ce moment-là Doctrine le surveille
+            $em->flush();
+            $this->get("session")->getFlashBag()->add("success","Bravo !");
+            return $this->redirectToRoute("troiswa_back_categorie_create");
+        }
+        return $this->render("TroiswaBackBundle:Categorie:create.html.twig",["formCategorie"=>$formulaireCategorie->createView()]);
+    }
+
+    public function editAction($id, Request $request)
+    {
+        $em=$this->getDoctrine()->getManager();
+        $categorie=$em->getRepository("TroiswaBackBundle:Categorie")
+            ->find($id);
+        if(!$categorie)
+        {
+            throw $this->createNotFoundException("La catégorie n'existe pas");
+        }
+        $formulaireCategorie = $this->createForm(new CategorieType(), $categorie)
+            ->add("enregistrer","submit");
+        $formulaireCategorie->handleRequest($request);
+        if($formulaireCategorie->isValid()){
+            $em= $this->getDoctrine()->getManager(); // Récupérer doctrine (se connecter à la base)
+            $em->persist($categorie); // A partir de ce moment-là Doctrine le surveille
+            $em->flush();
+            $this->get("session")->getFlashBag()->add("success","Bravo !");
+            return $this->redirectToRoute("troiswa_back_categorie_edit", ['id'=>$id]);
+        }
+        return $this->render("TroiswaBackBundle:Categorie:edit.html.twig",["formCategorie"=>$formulaireCategorie->createView()]);
+    }
+
+    public function deleteAction(Request $request, $id)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $categorie = $em->getRepository('TroiswaBackBundle:Categorie')->find($id);
+
+        if (!$categorie) {
+            throw $this->createNotFoundException('Unable to find Category entity.');
+        }
+
+        // Code de la suppression
+        $em->remove($categorie);
+        $em->flush();
+        // Fin code de la suppression
+
+        $this->get("session")->getFlashBag()->add("success","Bravo !");
+        // }
+
+        return $this->redirect($this->generateUrl('troiswa_back_categorie')); // page qui liste tous les produits
     }
 }

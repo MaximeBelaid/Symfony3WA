@@ -23,7 +23,7 @@
                </div>
             </div><!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
-               <table class="table table-hover">
+               <table id="product_detail" class="table table-hover">
                   <tr>
                      <th>ID</th>
                      <th>Title</th>
@@ -47,7 +47,7 @@
                               <a class="btn btn-success" href="{{ path("troiswa_back_product_edit",{id: product.id }) }}">
                                  <i class="fa fa-edit"></i> Editer
                               </a>
-                              <a class="btn btn-danger" href="{{ path("troiswa_back_product_delete",{id: product.id }) }}">
+                              <a class="btn btn-danger delete" href="{{ path("troiswa_back_product_delete",{id: product.id }) }}">
                                  <i class="fa fa-trash"></i> Supprimer
                               </a>
                            <div>
@@ -59,4 +59,9 @@
          </div><!-- /.box -->
       </div>
    </div>
+{% endblock %}
+
+{% block javascripts %}
+   {{ parent() }}
+   <script src="{{ asset("js/product.js") }}"></script>
 {% endblock %}

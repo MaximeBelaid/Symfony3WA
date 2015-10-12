@@ -1,0 +1,16 @@
+{%  extends "TroiswaBackBundle::layout-bo.html.twig" %}
+
+{%  block titre %}Create categorie{{ parent() }}{% endblock %}
+
+{% block titreContent %}Create categorie{%  endblock %}
+
+{% block customMessageFlash %}
+    <p>La catégorie a bien été enregistrée</p>
+{% endblock %}
+
+
+{% block content %}
+
+    {{ form(formCategorie,{attr:{novalidate:"novalidate"}}) }}
+    <h2><a href="{{ path("troiswa_back_categorie") }}">Back</a></h2>
+{% endblock %}

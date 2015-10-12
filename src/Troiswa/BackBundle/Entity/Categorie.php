@@ -4,6 +4,7 @@ namespace Troiswa\BackBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Categorie
@@ -13,6 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Categorie
 {
+    public function __construct()
+    {
+        $this->dateCreated = new \DateTime("now");
+    }
     /**
      * @var integer
      *
@@ -32,6 +37,13 @@ class Categorie
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_created", type="datetime")
+     */
+    private $dateCreated;
 
     /**
      * @var string
@@ -93,6 +105,30 @@ class Categorie
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set dateCreated
+     *
+     * @param \DateTime $dateCreated
+     *
+     * @return Product
+     */
+    public function setDateCreated($dateCreated)
+    {
+        $this->dateCreated = $dateCreated;
+
+        return $this;
+    }
+
+    /**
+     * Get dateCreated
+     *
+     * @return \DateTime
+     */
+    public function getDateCreated()
+    {
+        return $this->dateCreated;
     }
 
     /**
@@ -165,6 +201,30 @@ class Categorie
     public function getActive()
     {
         return $this->active;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+        if (!ctype_upper(substr($this->getTitle(),0,1))) {
+            $context->buildViolation('La première lettre du titre doit être en majuscule!')
+                ->atPath('title')
+                ->addViolation();
+        }
+    }
+
+    /**
+     * @Assert\True(message="Attention si la position est 1 alors le titre doit être 'Accueil'! ")
+     */
+    public function isCategorieValid()
+    {
+        if( $this->position == 1 && $this->title != "Accueil")
+        {
+            return false;
+        }
+        return true;
     }
 }
 

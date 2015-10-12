@@ -10,7 +10,42 @@
 
 
 {% block content %}
+    <style>
+        input[type=date]::-webkit-calendar-picker-indicator
+        {
+            display: none;
+        }
+    </style>
+    {{ form_start(formProduct,{attr:{novalidate:"novalidate"}}) }}
 
-    {{ form(formProduct,{attr:{novalidate:"novalidate"}}) }}
+    {{ form_row(formProduct.title) }}
+    {{ form_row(formProduct.description) }}
+    {{ form_row(formProduct.price) }}
+    {{ form_row(formProduct.quantity) }}
+
+    {{ form_label(formProduct.dateCreated) }}
+    {{ form_widget(formProduct.dateCreated,{attr:{class:"date-picker"}}) }}
+
+    {{ form_row(formProduct.enregistrer) }}
+    {{ form_end(formProduct,{attr:{novalidate:"novalidate"}}) }}
     <h2><a href="{{ path("troiswa_back_product") }}">Back</a></h2>
 {% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('datepicker/jquery-ui.min.js') }}"></script>
+    <script>
+        $(".date-picker").datepicker({
+            dateFormat: 'dd/mm/yy'
+        });
+    </script>
+{%  endblock %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('datepicker/jquery-ui.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('datepicker/jquery-ui.structure.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('datepicker/jquery-ui.theme.min.css') }}">
+{%  endblock %}

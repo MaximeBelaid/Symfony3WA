@@ -10,4 +10,46 @@ namespace Troiswa\BackBundle\Entity;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllPerso()
+    {
+        //die("ok");
+
+        /*
+        $query=$this->getEntityManager()->createQuery("
+                SELECT prod
+                FROM TroiswaBackBundle:Product prod
+        ");
+        return $query->getResult();
+        */
+
+        //autre méthode
+        $query= $this->createQueryBuilder("prod")->getQuery();
+        return $query->getResult();
+    }
+
+    public function findPerso($id)
+    {
+        //_em = raccourci de getEntityManager()
+        /*
+        $query = $this->_em->createQuery("
+            SELECT prod
+            FROM TroiswaBackBundle:Product prod
+            WHERE prod.id = :idProd
+            ")
+            //->setParameter("idProd",$id);
+            ->setParameters(["idProd"=>$id]);
+        dump($query->getResult());
+        die(dump($query->getSingleResult()));
+        return $query->getSingleResult();
+        */
+
+        //autre méthode
+        $query= $this->createQueryBuilder("prod")
+            ->where("prod.id = :idProd")
+            ->setParameters(["idProd"=>$id])
+            ->getQuery();
+        dump($query->getResult());
+        die(dump($query->getSingleResult()));
+        return $query->getSingleResult();
+    }
 }

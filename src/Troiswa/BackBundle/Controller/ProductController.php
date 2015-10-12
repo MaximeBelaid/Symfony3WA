@@ -10,6 +10,7 @@ namespace Troiswa\BackBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Troiswa\BackBundle\Entity\Product;
 use Troiswa\BackBundle\Form\ProductType;
@@ -134,6 +135,9 @@ class ProductController extends  Controller
             // Code de la suppression
             $em->remove($product);
             $em->flush();
+            if($request->isXmlHttpRequest()) { // est-ce que c'est de l'ajax
+                return new JsonResponse([]);
+            }
             // Fin code de la suppression
 
             $this->get("session")->getFlashBag()->add("success","Bravo !");
