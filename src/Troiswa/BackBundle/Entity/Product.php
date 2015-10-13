@@ -9,15 +9,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Product
  *
  * @ORM\Table(name="product")
- * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Entity\ProductRepository")
+ * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Repository\ProductRepository")
+ *
  */
 class Product
 {
-    public function __construct()
-    {
-        $this->dateCreated = new \DateTime("now");
-        $this->quantity = 1;
-    }
+
+
     /**
      * @var integer
      *
@@ -71,6 +69,20 @@ class Product
      * @ORM\Column(name="quantity", type="integer", options={"default"=1})
      */
     private $quantity;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Categorie")
+     */
+    private $categorie;
+
+    
+
+
+    public function __construct()
+    {
+        $this->dateCreated = new \DateTime("now");
+        $this->quantity = 1;
+    }
 
     /**
      * Get id
@@ -200,5 +212,29 @@ class Product
     public function getQuantity()
     {
         return $this->quantity;
+    }
+
+    /**
+     * Set categorie
+     *
+     * @param \Troiswa\BackBundle\Entity\Categorie $categorie
+     *
+     * @return Product
+     */
+    public function setCategorie(\Troiswa\BackBundle\Entity\Categorie $categorie = null)
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * Get categorie
+     *
+     * @return \Troiswa\BackBundle\Entity\Categorie
+     */
+    public function getCategorie()
+    {
+        return $this->categorie;
     }
 }

@@ -51,7 +51,7 @@ class CategorieController extends Controller
 
     }
 
-    public function showAction($id)
+    public function showAction(/*$id*/ Categorie $categorie)
     {
         /*$categories = [
             1 => [
@@ -86,6 +86,8 @@ class CategorieController extends Controller
 
         return $this->render("TroiswaBackBundle:Categorie:zoom.html.twig", ["categorie"=>$uneCategorie]);
         */
+
+        /* Utilisation du paramConverter au niveau de la méthode
         $em=$this->getDoctrine()->getManager();
         $categorie=$em->getRepository("TroiswaBackBundle:Categorie")
             ->find($id);
@@ -94,7 +96,7 @@ class CategorieController extends Controller
         {
             throw $this->createNotFoundException("La catégorie n'existe pas");
         }
-
+        */
         return $this->render('TroiswaBackBundle:Categorie:index.html.twig', array(
             'categorie'      => $categorie,
         ));

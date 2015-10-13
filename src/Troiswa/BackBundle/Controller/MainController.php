@@ -154,9 +154,49 @@ class MainController extends Controller
         $productAll= $em->getRepository("TroiswaBackBundle:Product")
                         //->findAllPerso();
                         ->findPerso(46);
+        $productQuantity = $em->getRepository("TroiswaBackBundle:Product")
+                        ->findProductQuantity();
+
+        $nbProductNoQuantity = $em->getRepository("TroiswaBackBundle:Product")
+            ->findProductNoQuantity();
+
+        $nbCategory = $em->getRepository("TroiswaBackBundle:Product")
+            ->findBestProductPriceAndQuantity();
+
+        $nbCategoryActif = $em->getRepository("TroiswaBackBundle:Categorie")
+            ->findNbCategoryActif();
+
+        $nbCategoryActifInactif = $em->getRepository("TroiswaBackBundle:Categorie")
+            ->findNbCategoryActifInactif();
+
+        $totalPriceProduct = $em->getRepository("TroiswaBackBundle:Product")
+            ->findTotalPriceProduct();
+
+        $totalQuantityProduct = $em->getRepository("TroiswaBackBundle:Product")
+            ->findTotalQuantityProduct();
+
+        $bestAndLessProductPrice = $em->getRepository("TroiswaBackBundle:Product")
+            ->findBestAndLessProductPrice();
+
+        $bestProductPriceAndQuantity = $em->getRepository("TroiswaBackBundle:Product")
+            ->findBestProductPriceAndQuantity();
+
+        $categoryPosition = $em->getRepository("TroiswaBackBundle:Categorie")
+            ->findCategoryPosition();
 
         //die(dump($productAll));
-        return $this->render("TroiswaBackBundle:Main:admin.html.twig",["prenom"=>"Maxime BELAID", "productAll"=>$productAll]);
+        return $this->render("TroiswaBackBundle:Main:admin.html.twig",["prenom"=>"Maxime BELAID",
+            "productAll"=>$productAll,
+            "productQuantity"=>$productQuantity,
+            "nbProductNoQuantity"=>$nbProductNoQuantity,
+            "nbCategory"=>$nbCategory,
+            "nbCategoryActif"=>$nbCategoryActif,
+            "nbCategoryActifInactif"=>$nbCategoryActifInactif,
+            "totalPriceProduct"=>$totalPriceProduct,
+            "totalQuantityProduct"=>$totalQuantityProduct,
+            "bestAndLessProductPrice"=>$bestAndLessProductPrice,
+            "bestProductPriceAndQuantity"=>$bestProductPriceAndQuantity,
+            "categoryPosition"=>$categoryPosition]);
     }
 
     public function feedbackAction(Request $request)

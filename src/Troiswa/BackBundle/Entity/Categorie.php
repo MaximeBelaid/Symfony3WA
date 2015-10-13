@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  * Categorie
  *
  * @ORM\Table(name="categorie")
- * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Entity\CategorieRepository")
+ * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Repository\CategorieRepository")
  */
 class Categorie
 {
@@ -226,5 +226,11 @@ class Categorie
         }
         return true;
     }
+
+    /*
+    public  function __toString()
+    {
+        return $this->title;
+    }*/
 }
 

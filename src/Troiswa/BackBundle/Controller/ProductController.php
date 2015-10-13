@@ -12,6 +12,7 @@ namespace Troiswa\BackBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Troiswa\BackBundle\Entity\CategorieRepository;
 use Troiswa\BackBundle\Entity\Product;
 use Troiswa\BackBundle\Form\ProductType;
 
@@ -25,8 +26,9 @@ class ProductController extends  Controller
             ;
     }*/
 
-    public function showAction($id)
+    public function showAction(/*$id*/Product $product)
     {
+        /*
         $em=$this->getDoctrine()->getManager();
         $product=$em->getRepository("TroiswaBackBundle:Product")
             ->find($id);
@@ -36,7 +38,7 @@ class ProductController extends  Controller
             throw $this->createNotFoundException("Le produit n'existe pas");
         }
         //$deleteForm = $this->createDeleteForm($id);
-
+        */
         return $this->render('TroiswaBackBundle:Product:index.html.twig', array(
             'product'      => $product/*,
             'delete_form' => $deleteForm->createView(),*/
@@ -50,11 +52,13 @@ class ProductController extends  Controller
     public function indexAction()
     {
         $em=$this->getDoctrine()->getManager();
-        $products=$em->getRepository("TroiswaBackBundle:Product")
+        /*$products=$em->getRepository("TroiswaBackBundle:Product")
                         ->findAll(); // http://www.doctrine-project.org/api/orm/2.2/class-Doctrine.ORM.EntityRepository.html
                         //->find(1);
                         //->findBy["title"=>"toto"],
-                        //            ["date"=>"DESC"], 2,4);
+                        //            ["date"=>"DESC"], 2,4);*/
+        $products = $em->getRepository("TroiswaBackBundle:Product")
+            ->findAllProductWithCategory();
         //die(dump($products));
         return $this->render("TroiswaBackBundle:Product:all.html.twig",["products"=>$products]);
     }
@@ -103,6 +107,13 @@ class ProductController extends  Controller
             ->add("description", "textarea")
             ->add("price", "text")
             ->add("quantity", "number")
+            ->add('categorie', "entity", [
+                //"expanded"=>"true",
+                "class"=>"TroiswaBackBundle:Categorie",
+                "choice_label"=>"title",
+                'query_builder' => function (CategorieRepository $er) {
+                    return $er->builderCategoryOrderPosition();
+                }])
             ->add("sauvegarder", "submit")
             ->getForm();
         $formulaireProduct->handleRequest($request);

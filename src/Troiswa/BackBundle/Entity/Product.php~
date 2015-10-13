@@ -10,14 +10,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="product")
  * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Entity\ProductRepository")
+ *
  */
 class Product
 {
-    public function __construct()
-    {
-        $this->dateCreated = new \DateTime("now");
-        $this->quantity = 1;
-    }
+
+
     /**
      * @var integer
      *
@@ -53,7 +51,7 @@ class Product
      * @var float
      * @Assert\NotBlank(message="Obligatoire")
      * @Assert\Regex(
-     *     pattern="/^[0-9]{1,}(,)?[0-9]{1,2}$/",
+     *     pattern="/^[0-9]{1,}(\.)?[0-9]{0,2}$/",
      *     message="This value is not valid.")
      * @ORM\Column(name="price", type="float")
      */
@@ -71,6 +69,20 @@ class Product
      * @ORM\Column(name="quantity", type="integer", options={"default"=1})
      */
     private $quantity;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Categorie")
+     */
+    private $categorie;
+
+    
+
+
+    public function __construct()
+    {
+        $this->dateCreated = new \DateTime("now");
+        $this->quantity = 1;
+    }
 
     /**
      * Get id
@@ -177,5 +189,28 @@ class Product
     {
         return $this->dateCreated;
     }
-}
 
+    /**
+     * Set quantity
+     *
+     * @param integer $quantity
+     *
+     * @return Product
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return integer
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+}

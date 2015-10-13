@@ -5,6 +5,7 @@ namespace Troiswa\BackBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Troiswa\BackBundle\Repository\CategorieRepository;
 
 class ProductType extends AbstractType
 {
@@ -22,7 +23,14 @@ class ProductType extends AbstractType
                 ["widget"=>"single_text",'format' => 'dd/MM/yyyy'
                 ])
             ->add('quantity')
-        ;
+            ->add('categorie', "entity", [
+                //"expanded"=>"true",
+                "class"=>"TroiswaBackBundle:Categorie",
+                "choice_label"=>"title",
+                'query_builder' => function (CategorieRepository $er) {
+                    return $er->builderCategoryOrderPosition();
+    },
+            ]);
     }
     
     /**

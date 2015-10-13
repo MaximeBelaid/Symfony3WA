@@ -22,9 +22,9 @@
     {{ form_row(formProduct.description) }}
     {{ form_row(formProduct.price) }}
     {{ form_row(formProduct.quantity) }}
+    {{ form_row(formProduct.categorie) }}
 
-    {{ form_label(formProduct.dateCreated) }}
-    {{ form_widget(formProduct.dateCreated,{attr:{class:"date-picker"}}) }}
+    {{ form_row(formProduct.dateCreated,{attr:{class:"date-picker"}}) }}
 
     {{ form_row(formProduct.enregistrer) }}
     {{ form_end(formProduct,{attr:{novalidate:"novalidate"}}) }}
