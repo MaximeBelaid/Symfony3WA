@@ -4,6 +4,7 @@ namespace Troiswa\BackBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Troiswa\BackBundle\Entity\Marque;
 
 /**
  * Product
@@ -75,7 +76,13 @@ class Product
      */
     private $categorie;
 
-    
+    /**
+     * @ORM\ManyToOne(targetEntity="Marque")
+     * @ORM\JoinColumn(name="marque_id",referencedColumnName="id",nullable=false)
+     */
+    private $marque;
+
+
 
 
     public function __construct()
@@ -236,5 +243,31 @@ class Product
     public function getCategorie()
     {
         return $this->categorie;
+    }
+
+
+
+    /**
+     * Set marque
+     *
+     * @param \Troiswa\BackBundle\Entity\Marque $marque
+     *
+     * @return Product
+     */
+    public function setMarque(Marque $marque)
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    /**
+     * Get marque
+     *
+     * @return \Troiswa\BackBundle\Entity\Marque
+     */
+    public function getMarque()
+    {
+        return $this->marque;
     }
 }

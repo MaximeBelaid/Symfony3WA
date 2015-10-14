@@ -66,15 +66,16 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
     }
 
     // Afficher le nombre de produit dont la quantité est à 0
-    public function findProductNoQuantity()
+    public function findProductNoQuantity($quantity = 0)
     {
         $query = $this->getEntityManager()->createQuery(
-            "SELECT prod
+            "SELECT count(prod.id)
             FROM TroiswaBackBundle:Product prod
-            WHERE prod.quantity = 0"
-        );
+            WHERE prod.quantity <= :qty"
+        )
+            ->setParameter('qty', $quantity);
 
-        return $query->getResult();
+        return $query->getSingleScalarResult();
     }
 
     // Afficher le total des prix des produits

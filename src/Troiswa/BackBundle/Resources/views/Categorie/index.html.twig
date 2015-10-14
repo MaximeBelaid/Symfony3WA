@@ -2,7 +2,7 @@
 
 {%  block titre %}Zoom{{ parent() }}{% endblock %}
 
-{% block titreContent %}Zoom catégore{%  endblock %}
+{% block titreContent %}Zoom catégorie{%  endblock %}
 
 {% block content %}
 
@@ -18,6 +18,9 @@
                                 <p>"{{ categorie.description }}"</p>
                                 <p>{{ categorie.position }}</p>
                                 <p>{{ categorie.active }}</p>
+                                {% if categorie.image %}
+                                        <img src="{{ asset(categorie.image.webPath) }}"
+                                {% endif %}
                                 <small>Date <cite title="Source Title">{{ categorie.dateCreated|date("d/m/Y")  }}</cite></small>
                                 <br>
                         </blockquote>

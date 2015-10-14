@@ -70,7 +70,7 @@ class Categorie
     private $active;
 
     /**
-     * @ORM\OneToOne(targetEntity="Image",cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Image")
      */
     private $image;
 
@@ -237,28 +237,5 @@ class Categorie
     {
         return $this->title;
     }*/
-
-    /**
-     * Set image
-     *
-     * @param \Troiswa\BackBundle\Entity\Image $image
-     *
-     * @return Categorie
-     */
-    public function setImage(\Troiswa\BackBundle\Entity\Image $image = null)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return \Troiswa\BackBundle\Entity\Image
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
 }
+

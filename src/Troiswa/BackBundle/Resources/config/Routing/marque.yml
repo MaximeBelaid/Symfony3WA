@@ -1,0 +1,30 @@
+marque:
+    path:     /
+    defaults: { _controller: "TroiswaBackBundle:Marque:index" }
+
+marque_show:
+    path:     /{id}/show
+    defaults: { _controller: "TroiswaBackBundle:Marque:show" }
+
+marque_new:
+    path:     /new
+    defaults: { _controller: "TroiswaBackBundle:Marque:new" }
+
+marque_create:
+    path:     /create
+    defaults: { _controller: "TroiswaBackBundle:Marque:create" }
+    methods:  POST
+
+marque_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "TroiswaBackBundle:Marque:edit" }
+
+marque_update:
+    path:     /{id}/update
+    defaults: { _controller: "TroiswaBackBundle:Marque:update" }
+    methods:  [POST, PUT]
+
+marque_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "TroiswaBackBundle:Marque:delete" }
+    methods:  [POST, DELETE]

@@ -110,7 +110,17 @@ class CategorieController extends Controller
             ->add("enregistrer","submit");
         $formulaireCategorie->handleRequest($request);
         if($formulaireCategorie->isValid()){
+            //die(dump($categorie));
+
+            $image=$categorie->getImage();
+            $image->upload();
+
             $em= $this->getDoctrine()->getManager(); // Récupérer doctrine (se connecter à la base)
+
+            //Je supprime les 2 lignes de dessous car cascade persist dans l'entity Category
+            //$em->persist($image);
+            //$em->flush();
+
             $em->persist($categorie); // A partir de ce moment-là Doctrine le surveille
             $em->flush();
             $this->get("session")->getFlashBag()->add("success","Bravo !");
@@ -160,5 +170,17 @@ class CategorieController extends Controller
         // }
 
         return $this->redirect($this->generateUrl('troiswa_back_categorie')); // page qui liste tous les produits
+    }
+
+    public function renderAllCategorieAction()
+    {
+        $em=$this->getDoctrine()->getManager();
+        $categories=$em->getRepository("TroiswaBackBundle:Categorie")
+            ->findAll();
+            /*->findBy(["title"=>"CAT-2"],
+                ["dateCreated"=>"DESC"],2,0);*/
+
+        return $this->render("TroiswaBackBundle:Categorie/test:renderCategorie.html.twig",["categories"=>$categories]);
+
     }
 }

@@ -51,6 +51,7 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ path("troiswa_back_categorie") }}"><i class="fa fa-circle-o"></i> Tous</a></li>
                     <li><a href="{{ path("troiswa_back_categorie_create") }}"><i class="fa fa-circle-o"></i>Ajouter</a></li>
+                    {{ render(controller("TroiswaBackBundle:Categorie:renderAllCategorie")) }}
                 </ul>
             </li>
 

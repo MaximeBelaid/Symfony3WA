@@ -2,6 +2,7 @@
 
 namespace Troiswa\BackBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,11 +27,26 @@ class ProductType extends AbstractType
             ->add('categorie', "entity", [
                 //"expanded"=>"true",
                 "class"=>"TroiswaBackBundle:Categorie",
+                /*
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('cat')
+                        ->orderBy('cat.position', 'ASC');
+                },
+                */
                 "choice_label"=>"title",
                 'query_builder' => function (CategorieRepository $er) {
                     return $er->builderCategoryOrderPosition();
-    },
-            ]);
+
+                },
+            ])
+            ->add('marque', "entity", [
+                //"expanded"=>"true",
+                "class"=>"TroiswaBackBundle:Marque",
+                "choice_label"=>"titre",
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('m')
+                        ->orderBy('m.titre', 'ASC');
+                }]);
     }
     
     /**

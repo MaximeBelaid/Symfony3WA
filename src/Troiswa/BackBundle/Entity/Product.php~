@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Product
  *
  * @ORM\Table(name="product")
- * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Entity\ProductRepository")
+ * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Repository\ProductRepository")
  *
  */
 class Product
@@ -75,7 +75,13 @@ class Product
      */
     private $categorie;
 
-    
+    /**
+     * @ORM\ManyToOne(targetEntity="Marque")
+     * @ORM\JoinColumn(name="marque_id",referencedColumnName="id",nullable=false)
+     */
+    private $marque;
+
+
 
 
     public function __construct()
@@ -213,4 +219,30 @@ class Product
     {
         return $this->quantity;
     }
+
+    /**
+     * Set categorie
+     *
+     * @param \Troiswa\BackBundle\Entity\Categorie $categorie
+     *
+     * @return Product
+     */
+    public function setCategorie(\Troiswa\BackBundle\Entity\Categorie $categorie = null)
+    {
+        $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    /**
+     * Get categorie
+     *
+     * @return \Troiswa\BackBundle\Entity\Categorie
+     */
+    public function getCategorie()
+    {
+        return $this->categorie;
+    }
+
+
 }

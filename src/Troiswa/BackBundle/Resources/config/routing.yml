@@ -1,3 +1,7 @@
+troiswa_back_marque:
+    resource: "@TroiswaBackBundle/Resources/config/Routing/marque.yml"
+    prefix:   /marque
+
 troiswa_back_homepage:
     path:     /hello/{name}
     defaults: { _controller: TroiswaBackBundle:Default:index }

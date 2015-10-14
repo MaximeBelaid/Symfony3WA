@@ -1,0 +1,5 @@
+<li>
+    {% for cat in categories %}
+        <a href="{{ path("troiswa_back_categorie_show",{id: cat.id }) }}"> <i class="fa fa-circle-o"></i> {{ cat.title }}</a>
+    {% endfor %}
+</li>

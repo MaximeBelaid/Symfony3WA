@@ -5,8 +5,9 @@ namespace Troiswa\BackBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class CategorieType extends AbstractType
+class ImageType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,22 +16,21 @@ class CategorieType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('dateCreated',"date")
-            ->add('description')
-            ->add('position')
-            ->add('active')
-            ->add('image',new ImageType())
+            /*
+            ->add('name')
+            ->add('caption')
+            */
+            ->add('fichier','file')
         ;
     }
     
     /**
-     * @param OptionsResolver $resolver
+     * @param OptionsResolverInterface $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Troiswa\BackBundle\Entity\Categorie'
+            'data_class' => 'Troiswa\BackBundle\Entity\Image'
         ));
     }
 
@@ -39,6 +39,6 @@ class CategorieType extends AbstractType
      */
     public function getName()
     {
-        return 'troiswa_backbundle_categorie';
+        return 'troiswa_backbundle_image';
     }
 }
