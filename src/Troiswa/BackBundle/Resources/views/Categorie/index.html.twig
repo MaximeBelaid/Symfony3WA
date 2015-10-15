@@ -19,7 +19,7 @@
                                 <p>{{ categorie.position }}</p>
                                 <p>{{ categorie.active }}</p>
                                 {% if categorie.image %}
-                                        <img src="{{ asset(categorie.image.webPath) }}"
+                                        <img src="{{ asset(categorie.image.webpath) }}">
                                 {% endif %}
                                 <small>Date <cite title="Source Title">{{ categorie.dateCreated|date("d/m/Y")  }}</cite></small>
                                 <br>

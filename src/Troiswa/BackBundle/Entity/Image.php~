@@ -3,12 +3,17 @@
 namespace Troiswa\BackBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
 
 /**
  * Image
  *
  * @ORM\Table(name="image")
  * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Repository\ImageRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Image
 {
@@ -35,6 +40,44 @@ class Image
      */
     private $caption;
 
+    /**
+     * @Assert\File(
+     *     maxSize = "500k",
+     *     mimeTypes = {"image/png", "image/jpg", "image/jpeg", "image/gif"},
+     *     mimeTypesMessage = "Please upload a valid image")
+     *
+     */
+    private $fichier;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Categorie", mappedBy="image",cascade={"persist"})
+     * @Assert\Valid
+     */
+    private $categorie;
+
+
+    // propriété permettant de sauvegarder l'ancien nom de l'image (lorsqu'on fait une édition)
+    private $oldName;
+
+    public function getFichier()
+    {
+        return $this->fichier;
+    }
+
+    public function setFichier(UploadedFile $fichier)
+    {
+        $this->fichier = $fichier;
+
+        // Si j'ai déjà un nom (édition), je sauvegarde celui-ci dans une propriété oldName
+        if (null != $this->name)
+        {
+            $this->oldName = $this->name;
+
+            $this->name = "";
+        }
+
+        return $this;
+    }
 
     /**
      * Get id
@@ -93,5 +136,60 @@ class Image
     {
         return $this->caption;
     }
-}
 
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function test()
+    {
+        die('salut');
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function upload()
+    {
+        die('upload');
+        $nameImage = str_replace('.','',uniqid("", true)).'.'.$this->fichier
+                ->guessExtension();
+        //die(dump($nameImage));
+        $this->fichier->move(
+            __DIR__."/../../../../web/".$this->getRootWebDir(),
+            $nameImage
+        );
+        $this->name = $nameImage;
+        //$this->caption = $nameImage;
+        //die("ok");
+
+        // Suppression de l'ancienne image
+        if (!empty($this->oldName))
+        {
+            die('code de la suppression');
+        }
+
+    }
+
+    public function webPath()
+    {
+        return $this->getRootWebDir()."/".$this->name;
+    }
+
+    private function getRootWebDir()
+    {
+        return "uploads/categories";
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function isValidate(ExecutionContextInterface $context)
+    {
+        if ($this->fichier != null && $this->caption == null) {
+            $context->buildViolation('La légende est obligatoire si vous uploadez une image')
+                ->atPath('caption')
+                ->addViolation();
+        }
+    }
+}

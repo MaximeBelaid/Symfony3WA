@@ -109,11 +109,13 @@ class CategorieController extends Controller
         $formulaireCategorie = $this->createForm(new CategorieType(), $categorie)
             ->add("enregistrer","submit");
         $formulaireCategorie->handleRequest($request);
+        //die(dump($categorie));
         if($formulaireCategorie->isValid()){
             //die(dump($categorie));
 
-            $image=$categorie->getImage();
-            $image->upload();
+            //Ajout
+            //$image=$categorie->getImage();
+            //$image->upload();
 
             $em= $this->getDoctrine()->getManager(); // Récupérer doctrine (se connecter à la base)
 
@@ -121,7 +123,7 @@ class CategorieController extends Controller
             //$em->persist($image);
             //$em->flush();
 
-            $em->persist($categorie); // A partir de ce moment-là Doctrine le surveille
+            $em->persist($categorie); // A partir de ce moment-là Doctrine le surveille + appel de Upload au début de persist
             $em->flush();
             $this->get("session")->getFlashBag()->add("success","Bravo !");
             return $this->redirectToRoute("troiswa_back_categorie_create");
@@ -142,6 +144,8 @@ class CategorieController extends Controller
             ->add("enregistrer","submit");
         $formulaireCategorie->handleRequest($request);
         if($formulaireCategorie->isValid()){
+
+
             $em= $this->getDoctrine()->getManager(); // Récupérer doctrine (se connecter à la base)
             $em->persist($categorie); // A partir de ce moment-là Doctrine le surveille
             $em->flush();

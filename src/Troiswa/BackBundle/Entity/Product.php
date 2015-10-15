@@ -73,6 +73,7 @@ class Product
 
     /**
      * @ORM\ManyToOne(targetEntity="Categorie")
+     * * @ORM\JoinColumn(name="categorie_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $categorie;
 

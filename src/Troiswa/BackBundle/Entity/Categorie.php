@@ -70,7 +70,8 @@ class Categorie
     private $active;
 
     /**
-     * @ORM\OneToOne(targetEntity="Image",cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Image" ,cascade={"persist", "remove"})
+     * @Assert\Valid
      */
     private $image;
 
@@ -208,29 +209,6 @@ class Categorie
         return $this->active;
     }
 
-    /**
-     * @Assert\Callback
-     */
-    public function validate(ExecutionContextInterface $context)
-    {
-        if (!ctype_upper(substr($this->getTitle(),0,1))) {
-            $context->buildViolation('La première lettre du titre doit être en majuscule!')
-                ->atPath('title')
-                ->addViolation();
-        }
-    }
-
-    /**
-     * @Assert\True(message="Attention si la position est 1 alors le titre doit être 'Accueil'! ")
-     */
-    public function isCategorieValid()
-    {
-        if( $this->position == 1 && $this->title != "Accueil")
-        {
-            return false;
-        }
-        return true;
-    }
 
     /*
     public  function __toString()
@@ -244,9 +222,15 @@ class Categorie
      * @param \Troiswa\BackBundle\Entity\Image $image
      *
      * @return Categorie
+     *
      */
     public function setImage(\Troiswa\BackBundle\Entity\Image $image = null)
     {
+        if ($image == null || !$image->getFichier())
+        {
+            $image = null;
+        }
+
         $this->image = $image;
 
         return $this;
@@ -261,4 +245,6 @@ class Categorie
     {
         return $this->image;
     }
+
+
 }

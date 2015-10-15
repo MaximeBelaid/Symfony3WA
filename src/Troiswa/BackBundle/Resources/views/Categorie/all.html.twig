@@ -26,6 +26,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Title</th>
+                        <th>Thumbnail</th>
                         <th>Date</th>
                         <th>Description</th>
                         <th>Etat</th>
@@ -35,6 +36,10 @@
                     <tr>
                         <td>{{  categorie.id}}</td>
                         <td> {{ categorie.title }}</td>
+                        <td>
+                            {% if categorie.image %}
+                            <img src="{{ asset(categorie.image.webPath('thumb-small') ) }}"> </td>
+                            {%  endif %}
                         <td>{{ categorie.dateCreated|date("d/m/Y")  }}</td>
                         <td> {{ categorie.description|raw  }}</td>
                         {% if categorie.active %}
