@@ -236,6 +236,14 @@ class Categorie
         return $this;
     }
 
+    public function setImageFaker(\Troiswa\BackBundle\Entity\Image $image = null)
+    {
+
+        $this->image = $image;
+
+        return $this;
+    }
+
     /**
      * Get image
      *

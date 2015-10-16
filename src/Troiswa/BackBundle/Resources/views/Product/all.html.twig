@@ -31,16 +31,18 @@
                      <th>Description</th>
                      <th>Prix (en €)</th>
                      <th>Categorie</th>
+                     <th>Marque</th>
                      <th>Actions</th>
                   </tr>
                   {% for key,product in products %}
                      <tr>
-                        <td>{{  product.id}}</td>
+                        <td> {{  product.id}}</td>
                         <td> {{ product.title }}</td>
-                        <td>{{ product.dateCreated|date("d/m/Y")  }}</td>
+                        <td> {{ product.dateCreated|date("d/m/Y")  }}</td>
                         <td> {{ product.description|raw  }}</td>
                         <td> {{ product.price  }}</td>
                         <td> {%  if product.categorie %}{{ product.categorie.title }} {% else  %}Pas de catégorie{% endif %}</td>
+                        <td> {%  if product.marque %}{{ product.marque.titre }} {% else  %}Pas de marque{% endif %}</td>
                         <td>
                            <div class="box-body">
                               <a class="btn btn-info" href="{{ path("troiswa_back_product_show",{id: product.id }) }}">

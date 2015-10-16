@@ -12,9 +12,9 @@ namespace Troiswa\BackBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Troiswa\BackBundle\Entity\CategorieRepository;
 use Troiswa\BackBundle\Entity\Product;
 use Troiswa\BackBundle\Form\ProductType;
+use Troiswa\BackBundle\Repository\CategorieRepository;
 
 class ProductController extends  Controller
 {
@@ -58,7 +58,8 @@ class ProductController extends  Controller
                         //->findBy["title"=>"toto"],
                         //            ["date"=>"DESC"], 2,4);*/
         $products = $em->getRepository("TroiswaBackBundle:Product")
-            ->findAllProductWithCategory();
+              ->findAllProductWithCategory();
+
         //die(dump($products));
         return $this->render("TroiswaBackBundle:Product:all.html.twig",["products"=>$products]);
     }
@@ -114,6 +115,11 @@ class ProductController extends  Controller
                 'query_builder' => function (CategorieRepository $er) {
                     return $er->builderCategoryOrderPosition();
                 }])
+            ->add('marque', "entity", [
+                //"expanded"=>"true",
+                "class"=>"TroiswaBackBundle:Marque",
+                "choice_label"=>"titre"
+            ])
             ->add("sauvegarder", "submit")
             ->getForm();
         $formulaireProduct->handleRequest($request);

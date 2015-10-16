@@ -150,6 +150,7 @@ class MainController extends Controller
 
     public function adminAction()
     {
+
         $em = $this->getDoctrine()->getManager();
         $productAll= $em->getRepository("TroiswaBackBundle:Product")
                         //->findAllPerso();
@@ -184,6 +185,9 @@ class MainController extends Controller
         $categoryPosition = $em->getRepository("TroiswaBackBundle:Categorie")
             ->findCategoryPosition();
 
+        $productsCamembert = $em->getRepository("TroiswaBackBundle:Product")
+            ->findNbProductByCategory();
+
         //die(dump($productAll));
         return $this->render("TroiswaBackBundle:Main:admin.html.twig",["prenom"=>"Maxime BELAID",
             "productAll"=>$productAll,
@@ -196,7 +200,8 @@ class MainController extends Controller
             "totalQuantityProduct"=>$totalQuantityProduct,
             "bestAndLessProductPrice"=>$bestAndLessProductPrice,
             "bestProductPriceAndQuantity"=>$bestProductPriceAndQuantity,
-            "categoryPosition"=>$categoryPosition]);
+            "categoryPosition"=>$categoryPosition,
+            "productsCamembert"=>$productsCamembert]);
     }
 
     public function feedbackAction(Request $request)

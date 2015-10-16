@@ -50,7 +50,7 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery();
         //dump($query->getResult());
         //die(dump($query->getSingleResult()));
-        return $query->getSingleResult();
+        return $query->getOneOrNullResult();
     }
 
     // Afficher les produits dont la quantité est inférieur à 5
@@ -134,6 +134,21 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
                 SELECT prod, cat
                 FROM TroiswaBackBundle:Product prod
                 LEFT JOIN prod.categorie cat
+        ");
+        //die(dump($query->getResult()));
+        return $query->getResult();
+    }
+
+    public function findNbProductByCategory()
+    {
+        $query=$this->getEntityManager()->createQuery("
+                SELECT count(prod.id) as nb, cat.title
+                FROM TroiswaBackBundle:Product prod
+                LEFT JOIN prod.categorie cat
+                WHERE prod.categorie is not null
+                GROUP BY cat
+
+
         ");
         //die(dump($query->getResult()));
         return $query->getResult();
