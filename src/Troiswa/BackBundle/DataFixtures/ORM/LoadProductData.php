@@ -38,13 +38,11 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
             $product->setPrice($faker->randomFloat);
             $product->setQuantity($faker->randomNumber);
 
-            $category=$faker->randomElement($this->getReference("categ"));
+            $category=$this->getReference("categorie_".$i);
             $product->setCategorie($category);
 
             $marque=$this->getReference("mar");
             $product->setMarque($marque);
-
-
 
             $manager->persist($product);
             $manager->flush();

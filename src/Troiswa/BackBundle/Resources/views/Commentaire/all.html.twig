@@ -1,0 +1,97 @@
+{%  extends "TroiswaBackBundle::layout-bo.html.twig" %}
+
+{%  block titre %}All{{ parent() }}{% endblock %}
+
+{% block titreContent %}All categories{%  endblock %}
+
+{% block customMessageFlash %}
+    <p>Vous avez activé le commentaire</p>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Table des catégories</h3>
+                    <div class="box-tools">
+                        <a class="btn btn-primary" href="{{ path("troiswa_back_categorie_create") }}">
+                            <i class="fa fa-play"></i> Ajouter
+                        </a>
+                    </div>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table id="commentaire_detail" class="table table-hover">
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Auteur</th>
+                            <th>Contenu</th>
+                            <th>Note</th>
+                            <th>Actif</th>
+                            <th>Produit</th>
+                        </tr>
+                        {% for key,commentaire in commentaires %}
+                            <tr>
+                                <td> {{  commentaire.id}}</td>
+                                <td> {{ commentaire.auteur }}</td>
+                                <td> {{ commentaire.contenu  }}</td>
+                                <td> {{ commentaire.note  }}</td>
+                                <td>
+
+                                    <div class="inputCheck" style="display:inline-block">
+                                        <label>
+                                            <input data-url="{{ path("troiswa_back_commentaire_active",{id: commentaire.id }) }}" type="checkbox" class="flat-red active" {% if commentaire.active %}checked{% endif %}>
+                                        </label>
+                                    </div>
+                                    {#<a class="btn btn-info active" href="{{ path("troiswa_back_commentaire_active",{id: commentaire.id }) }}">#}
+                                        {#<i class="fa fa-play"></i> Active#}
+                                    {#</a>#}
+                                </td>
+                                <td class="test"> {{ commentaire.product.title  }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div><!-- /.box-body -->
+            </div><!-- /.box -->
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('plugins/iCheck/all.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('plugins/iCheck/icheck.min.js') }}"></script>
+    <script src="{{ asset("js/commentaire.js") }}"></script>
+    <script>
+        //iCheck for checkbox and radio inputs
+        $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
+            checkboxClass: 'icheckbox_minimal-blue',
+            radioClass: 'iradio_minimal-blue'
+        });
+        //Red color scheme for iCheck
+        $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
+            checkboxClass: 'icheckbox_minimal-red',
+            radioClass: 'iradio_minimal-red'
+        });
+        //Flat red color scheme for iCheck
+        $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        }).on('ifClicked', function(){
+            var urlActive = $(this).attr('data-url');
+            $.ajax({
+                type: "GET",
+                url: urlActive
+            })
+                    .done(function()
+                    {
+                    });
+        });
+
+    </script>
+{% endblock %}

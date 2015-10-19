@@ -12,7 +12,9 @@ namespace Troiswa\BackBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Troiswa\BackBundle\Entity\Commentaire;
 use Troiswa\BackBundle\Entity\Product;
+use Troiswa\BackBundle\Form\CommentaireType;
 use Troiswa\BackBundle\Form\ProductType;
 use Troiswa\BackBundle\Repository\CategorieRepository;
 
@@ -26,8 +28,22 @@ class ProductController extends  Controller
             ;
     }*/
 
-    public function showAction(/*$id*/Product $product)
+    public function showAction(/*$id*/Product $product, Request $request)
     {
+        $commentaire = new Commentaire();
+        $formulaireCommentaire = $this->createForm(new CommentaireType(), $commentaire)
+            ->add("enregistrer","submit");
+        $formulaireCommentaire->handleRequest($request);
+        $em= $this->getDoctrine()->getManager(); // Récupérer doctrine (se connecter à la base)
+        if($formulaireCommentaire->isValid()){
+            $commentaire->setProduct($product);
+
+            $em->persist($commentaire); // A partir de ce moment-là Doctrine le surveille
+            $em->flush();
+            //die(dump($commentaire));
+            $this->get("session")->getFlashBag()->add("success","Bravo !");
+            return $this->redirectToRoute("troiswa_back_product_show", ['id'=> $product->getId()]);
+        }
         /*
         $em=$this->getDoctrine()->getManager();
         $product=$em->getRepository("TroiswaBackBundle:Product")
@@ -39,9 +55,15 @@ class ProductController extends  Controller
         }
         //$deleteForm = $this->createDeleteForm($id);
         */
+        $commentaires = $em->getRepository("TroiswaBackBundle:Commentaire")
+            ->findBy(["product"=>$product->getId()],
+                            ["dateCreation"=>"DESC"]);
+        //die(dump($commentaires));
         return $this->render('TroiswaBackBundle:Product:index.html.twig', array(
-            'product'      => $product/*,
-            'delete_form' => $deleteForm->createView(),*/
+            'product'      => $product,
+            "formCommentaire"=>$formulaireCommentaire->createView(),
+            "commentaires"=>$commentaires
+            /*'delete_form' => $deleteForm->createView(),*/
         ));}
 
     public function testAction()

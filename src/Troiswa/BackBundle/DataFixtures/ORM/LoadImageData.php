@@ -13,7 +13,6 @@ class LoadImageData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $allImg = [];
         $faker = \Faker\Factory::create('fr_FR');
 
         for ($i = 0; $i < 10; $i++) {
@@ -24,10 +23,8 @@ class LoadImageData extends AbstractFixture implements OrderedFixtureInterface
             $manager->persist($image);
             $manager->flush();
 
-            array_push($allImg, $image);
+            $this->addReference('img_'.$i, $image);
         }
-        $test = new \stdClass(json_encode($allImg));
-        $this->addReference('img', $test);
 
     }
 

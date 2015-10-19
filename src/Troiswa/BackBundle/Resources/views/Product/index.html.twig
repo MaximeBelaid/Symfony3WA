@@ -4,6 +4,10 @@
 
 {% block titreContent %}Zoom produit{%  endblock %}
 
+{% block customMessageFlash %}
+    <p>Votre commentaire a bien été enregistré !</p> Mais il est en attente de validation...
+{% endblock %}
+
 {% block content %}
     {#
     {{ dump(product) }}
@@ -14,34 +18,78 @@
         <div class="box box-solid">
             <div class="box-header with-border">
                 <i class="fa fa-text-width"></i>
-                <h3 class="box-title">{{ product.title ~" ("~ product.id }})</h3>
+                <h2 class="box-title">{{ product.title ~" ("~ product.id }})</h2>
             </div><!-- /.box-header -->
             <div class="box-body">
                 <blockquote>
                     <p>"{{ product.description }}"</p>
-                    <p>{{ product.price }} €</p>
-                    <p>x{{ product.quantity }}</p>
+                    <p>Prix : {{ product.price }} €</p>
+                    <p>Quantité : x{{ product.quantity }}</p>
                     <small>Date <cite title="Source Title">{{ product.dateCreated|date("d/m/Y")  }}</cite></small>
                     <br>
                 </blockquote>
-                <div class="box-body">
-                    <a class="btn btn-success" href="{{ path("troiswa_back_product_edit",{id: product.id }) }}">
-                        <i class="fa fa-edit"></i> Editer
-                    </a>
-                    <a class="btn btn-danger" href="{{ path("troiswa_back_product_delete",{id: product.id }) }}">
-                        <i class="fa fa-edit"></i> Supprimer
-                    </a>
-                    {#
-                    {{ form_start(delete_form) }}
-                    <button class="btn btn-danger">
-                        <i class="fa fa-trash"></i> Supprimer
-                    </button>
-                    {{ form_end(delete_form) }}
-                    #}
-                <div>
-            </div><!-- /.box-body -->
+                        <a class="btn btn-success" href="{{ path("troiswa_back_product_edit",{id: product.id }) }}">
+                            <i class="fa fa-edit"></i> Editer
+                        </a>
+                        <a class="btn btn-danger" href="{{ path("troiswa_back_product_delete",{id: product.id }) }}">
+                            <i class="fa fa-edit"></i> Supprimer
+                        </a>
+                        {#
+                        {{ form_start(delete_form) }}
+                        <button class="btn btn-danger">
+                            <i class="fa fa-trash"></i> Supprimer
+                        </button>
+                        {{ form_end(delete_form) }}
+                        #}
+                </div><!-- /.box-body -->
         </div><!-- /.box -->
         <h2><a href="{{ path("troiswa_back_product") }}">Back</a></h2>
     </div><!-- ./col -->
 
+    <div class="col-md-6">
+        <div class="box box-solid">
+            <div class="box-body">
+                <h3>Ajoutez un commentaire</h3>
+                {{ form(formCommentaire,{attr:{novalidate:"novalidate"}}) }}
+                <div id="etoiles" data-score="1">
+                </div>
+            </div><!-- /.box-body -->
+        </div><!-- /.box -->
+    </div><!-- ./col -->
+
+
+        <div class="col-md-6">
+            <div class='box-footer box-comments'>
+            {% for key,commentaire in commentaires %}
+                <div class='box-comment'>
+                    <!-- User image -->
+                    <img class='img-circle img-sm' src='/symfony/web/img/jd.jpg' alt='user image'>
+                    <div class='comment-text'>
+                              <span class="username">
+                                {{ commentaire.auteur }}
+                                <span class='text-muted pull-right'>{{ commentaire.dateCreation|date("d/m/Y")  }}</span>
+                              </span><!-- /.username -->
+                        {{ commentaire.contenu }}
+                    </div><!-- /.comment-text -->
+
+                </div><!-- /.box-comment -->
+            {% endfor %}
+            </div><!-- /.box-footer -->
+        </div><!-- ./col -->
+
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+<script>
+    $("#etoiles").raty({
+        starType : 'i'
+    });
+    $("#etoiles").click(function(){
+        $('#troiswa_backbundle_commentaire_note').val($('input["name=score"]').val());
+    })
+</script>
 {% endblock %}

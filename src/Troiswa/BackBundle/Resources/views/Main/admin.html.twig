@@ -554,7 +554,7 @@
                             <div class="col-md-4">
                                 <ul class="chart-legend clearfix">
                                     {% for req in productsCamembert  %}
-                                        <li><i class="fa fa-circle-o {{ colorPie[loop.index0].text }}"></i> {{ req.title }}</li>
+                                        <li><i class="fa fa-circle-o {{ colorPie[random(colorPie|length-1)].text }}"></i> {{ req.title }}</li>
                                     {% endfor %}
                                 </ul>
                             </div><!-- /.col -->
@@ -649,8 +649,8 @@
             {% for req in productsCamembert  %}
             {
                 value: {{ req.nb }},
-                color: "{{ colorPie[loop.index0].color }}",
-                highlight: "{{ colorPie[loop.index0].color }}",
+                color: "{{ colorPie[random(colorPie|length-1)].color }}",
+                highlight: "{{ colorPie[random(colorPie|length-1)].color }}",
                 label: "{{ req.title }}",
             },
             {%  endfor %}

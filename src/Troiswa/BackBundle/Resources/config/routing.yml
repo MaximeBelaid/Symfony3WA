@@ -33,3 +33,11 @@ troiswa_back_resource_product:
 troiswa_back_resource_categorie:
     resource: "@TroiswaBackBundle/Resources/config/Routing/categorie.yml"
     prefix: /categorie
+
+troiswa_back_commentaire:
+    path:   /commentaire
+    defaults: { _controller: TroiswaBackBundle:Commentaire:index }
+
+troiswa_back_commentaire_active:
+    path:     /active/{id}
+    defaults: { _controller: TroiswaBackBundle:Commentaire:active}
