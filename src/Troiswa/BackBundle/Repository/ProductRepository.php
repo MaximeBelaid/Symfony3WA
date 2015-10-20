@@ -153,4 +153,17 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
         //die(dump($query->getResult()));
         return $query->getResult();
     }
+
+    public function findProduitWithComments($id)
+    {
+        $query=$this->getEntityManager()->createQuery("
+                SELECT prod,com
+                FROM TroiswaBackBundle:Product prod
+                LEFT JOIN prod.commentaires com
+                WHERE prod.id = :id")
+                    ->setParameter("id",$id);
+        //die(dump($query->getSingleResult()));
+
+        return $query->getSingleResult();
+    }
 }

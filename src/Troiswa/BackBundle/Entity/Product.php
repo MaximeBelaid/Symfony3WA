@@ -2,6 +2,7 @@
 
 namespace Troiswa\BackBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Troiswa\BackBundle\Entity\Marque;
@@ -83,13 +84,17 @@ class Product
      */
     private $marque;
 
-
+    /**
+     * @ORM\OneToMany(targetEntity="Commentaire", mappedBy="product"  ,cascade={"remove"}))
+     */
+    private $commentaires;
 
 
     public function __construct()
     {
         $this->dateCreated = new \DateTime("now");
         $this->quantity = 1;
+        $this->commentaires = new ArrayCollection();
     }
 
     /**
@@ -270,5 +275,39 @@ class Product
     public function getMarque()
     {
         return $this->marque;
+    }
+
+    /**
+     * Add commentaire
+     *
+     * @param \Troiswa\BackBundle\Entity\Commentaire $commentaire
+     *
+     * @return Product
+     */
+    public function addCommentaire(\Troiswa\BackBundle\Entity\Commentaire $commentaire)
+    {
+        $this->commentaires[] = $commentaire;
+
+        return $this;
+    }
+
+    /**
+     * Remove commentaire
+     *
+     * @param \Troiswa\BackBundle\Entity\Commentaire $commentaire
+     */
+    public function removeCommentaire(\Troiswa\BackBundle\Entity\Commentaire $commentaire)
+    {
+        $this->commentaires->removeElement($commentaire);
+    }
+
+    /**
+     * Get commentaires
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCommentaires()
+    {
+        return $this->commentaires;
     }
 }

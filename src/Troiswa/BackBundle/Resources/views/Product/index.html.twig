@@ -60,7 +60,8 @@
 
         <div class="col-md-6">
             <div class='box-footer box-comments'>
-            {% for key,commentaire in commentaires %}
+                {#{% for key,commentaire in commentaires %}#}
+                {% for commentaire in product.commentaires if commentaire.active %}
                 <div class='box-comment'>
                     <!-- User image -->
                     <img class='img-circle img-sm' src='/symfony/web/img/jd.jpg' alt='user image'>
@@ -89,7 +90,8 @@
         starType : 'i'
     });
     $("#etoiles").click(function(){
-        $('#troiswa_backbundle_commentaire_note').val($('input["name=score"]').val());
+        $('#troiswa_backbundle_commentaire_note').val($('input[name="score"]').val());
+
     })
 </script>
 {% endblock %}

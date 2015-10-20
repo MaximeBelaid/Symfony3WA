@@ -63,8 +63,8 @@ class Commentaire
     private $dateCreation;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Product")
-     * @ORM\JoinColumn(name="product_id",referencedColumnName="id",nullable=false)
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="commentaires")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=false)
      */
     private $product;
 

@@ -4,6 +4,7 @@ namespace Troiswa\BackBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use Troiswa\BackBundle\Entity\Marque;
 use Troiswa\BackBundle\Form\MarqueType;
@@ -19,11 +20,20 @@ class MarqueController extends Controller
      * Lists all Marque entities.
      *
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('TroiswaBackBundle:Marque')->findAll();
+        //$entities = $em->getRepository('TroiswaBackBundle:Marque')->findAll();
+        $query = $em->createQuery("SELECT mar FROM TroiswaBackBundle:Marque mar");
+
+        $paginator  = $this->get('knp_paginator');
+        $entities = $paginator->paginate(
+            $query,
+            // $request->query = $_GET[]     $_GET['page']
+            $request->query->getInt('page', 1)/*page number*/, // marque/adidas/show?page=2
+            5/*limit per page*/
+        );
 
         return $this->render('TroiswaBackBundle:Marque:index.html.twig', array(
             'entities' => $entities,
@@ -44,7 +54,8 @@ class MarqueController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('marque_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('marque_show', array('id' => $entity->getSlug
+            ())));
         }
 
         return $this->render('TroiswaBackBundle:Marque:new.html.twig', array(
@@ -88,20 +99,24 @@ class MarqueController extends Controller
     }
 
     /**
-     * Finds and displays a Marque entity.
-     *
+     * path: /marque/{id}/show
+     * entity = nom de la variable
+     * id = variable du routing
+     * slug = nom de la colonne dans la base de données
+     * @ParamConverter("entity",  options={"mapping":  {"id" = "slug"}})
      */
-    public function showAction($id)
+    public function showAction(/*$id*/Marque $entity)
     {
+        //die(dump($entity));
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('TroiswaBackBundle:Marque')->find($id);
+        //$entity = $em->getRepository('TroiswaBackBundle:Marque')->findOneBy(["slug"=>$id]);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Marque entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($entity->getId());
 
         return $this->render('TroiswaBackBundle:Marque:show.html.twig', array(
             'entity'      => $entity,

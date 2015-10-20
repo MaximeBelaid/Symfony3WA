@@ -2,11 +2,13 @@
 
 {% block content -%}
     <h1>Marque list</h1>
-
+    <div class="count">
+        {{ entities.getTotalItemCount }}
+    </div>
         <table class="records_list">
             <thead>
                 <tr>
-                    <th>Id</th>
+                    <th>{{ knp_pagination_sortable(entities, 'Titre de la marque', 'mar.titre') }}</th>
                     <th>Titre</th>
                     <th>Actions</th>
                 </tr>
@@ -14,12 +16,12 @@
             <tbody>
             {% for entity in entities %}
                 <tr>
-                    <td><a href="{{ path('marque_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                    <td><a href="{{ path('marque_show', { 'id': entity.slug }) }}">{{ entity.slug }}</a></td>
                     <td>{{ entity.titre }}</td>
                     <td>
                     <ul>
                         <li>
-                            <a href="{{ path('marque_show', { 'id': entity.id }) }}">show</a>
+                            <a href="{{ path('marque_show', { 'id': entity.slug }) }}">show</a>
                         </li>
                         <li>
                             <a href="{{ path('marque_edit', { 'id': entity.id }) }}">edit</a>
@@ -30,6 +32,10 @@
             {% endfor %}
             </tbody>
         </table>
+
+        <div class="navigation">
+            {{ knp_pagination_render(entities) }}
+        </div>
 
         <ul>
             <li>

@@ -17,6 +17,7 @@ use Troiswa\BackBundle\Entity\Product;
 use Troiswa\BackBundle\Form\CommentaireType;
 use Troiswa\BackBundle\Form\ProductType;
 use Troiswa\BackBundle\Repository\CategorieRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class ProductController extends  Controller
 {
@@ -28,6 +29,10 @@ class ProductController extends  Controller
             ;
     }*/
 
+    /**
+     *
+     * @ParamConverter("product", options={"repository_method" = "findProduitWithComments"})
+     */
     public function showAction(/*$id*/Product $product, Request $request)
     {
         $commentaire = new Commentaire();
@@ -35,6 +40,8 @@ class ProductController extends  Controller
             ->add("enregistrer","submit");
         $formulaireCommentaire->handleRequest($request);
         $em= $this->getDoctrine()->getManager(); // Récupérer doctrine (se connecter à la base)
+        //$product=$em->getRepository("TroiswaBackBundle:Product")
+        //    ->findProduitWithComments($id);
         if($formulaireCommentaire->isValid()){
             $commentaire->setProduct($product);
 
@@ -47,22 +54,23 @@ class ProductController extends  Controller
         /*
         $em=$this->getDoctrine()->getManager();
         $product=$em->getRepository("TroiswaBackBundle:Product")
-            ->find($id);
+            ->find($id);*/
 
+/*
         if(!$product)
         {
             throw $this->createNotFoundException("Le produit n'existe pas");
         }
         //$deleteForm = $this->createDeleteForm($id);
         */
-        $commentaires = $em->getRepository("TroiswaBackBundle:Commentaire")
+        /*$commentaires = $em->getRepository("TroiswaBackBundle:Commentaire")
             ->findBy(["product"=>$product->getId()],
-                            ["dateCreation"=>"DESC"]);
-        //die(dump($commentaires));
+                            ["dateCreation"=>"DESC"]);*/
+        //die(dump($product));
         return $this->render('TroiswaBackBundle:Product:index.html.twig', array(
             'product'      => $product,
             "formCommentaire"=>$formulaireCommentaire->createView(),
-            "commentaires"=>$commentaires
+            /*"commentaires"=>$commentaires*/
             /*'delete_form' => $deleteForm->createView(),*/
         ));}
 
