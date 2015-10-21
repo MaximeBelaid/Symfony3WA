@@ -98,3 +98,9 @@ knp_paginator:
   template:
       pagination: KnpPaginatorBundle:Pagination:sliding.html.twig     # sliding pagination controls template
       sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
+
+# app/config/config.yml
+white_october_breadcrumbs:
+    separator:          ''
+    listClass:          'breadcrumb'
+    viewTemplate:       'WhiteOctoberBreadcrumbsBundle::breadcrumbs.html.twig'

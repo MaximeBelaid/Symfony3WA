@@ -9,6 +9,7 @@
 namespace Troiswa\BackBundle\Controller;
 
 
+use MetzWeb\Instagram\Instagram;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -150,6 +151,24 @@ class MainController extends Controller
 
     public function adminAction()
     {
+        //die(dump($this->getParameter('client_id_instagram'));
+        $instagram = new Instagram(array(
+            'apiKey'      => $this->getParameter('client_id_instagram'),
+            'apiSecret'   => $this->getParameter('client_secret_instagram'),
+            'apiCallback' => $this->getParameter('callback_instagram')
+        ));
+
+        //die(dump($instagram->getLoginUrl()));
+        $instagram->setAccessToken($this->getParameter('token_instagram'));
+        //die(dump($instagram->getPopularMedia()));
+        /*foreach($instagram->getPopularMedia()->data as $media)
+        {
+            //die(dump($media));
+            echo "<img src='".$media->images->thumbnail->url."'>";
+            //die;
+        }*/
+        $mesImages = $instagram->getUserMedia($this->getParameter('id_instagram'));
+        //die(dump($mesImages));
 
         $em = $this->getDoctrine()->getManager();
         $productAll= $em->getRepository("TroiswaBackBundle:Product")

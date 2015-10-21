@@ -26,7 +26,7 @@ class Marque
 
     /**
      * @var string
-     * @AntiGrosMots
+     * @AntiGrosMots(message="redefinition du message")
      * @ORM\Column(name="titre", type="string", length=100)
      */
     private $titre;

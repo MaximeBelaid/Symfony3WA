@@ -2,6 +2,7 @@
 
 {% block content -%}
     <h1>Marque list</h1>
+    {{ wo_render_breadcrumbs() }}
     <div class="count">
         {{ entities.getTotalItemCount }}
     </div>

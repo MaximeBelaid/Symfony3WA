@@ -3,17 +3,18 @@
 namespace Troiswa\BackBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 use Troiswa\BackBundle\Entity\Marque;
 use Troiswa\BackBundle\Form\MarqueType;
+use Troiswa\BackBundle\Controller\BaseController;
 
 /**
  * Marque controller.
  *
  */
-class MarqueController extends Controller
+class MarqueController extends BaseController
 {
 
     /**
@@ -107,6 +108,39 @@ class MarqueController extends Controller
      */
     public function showAction(/*$id*/Marque $entity)
     {
+        /*
+        $breadcrumbs = $this->get("white_october_breadcrumbs");
+        $breadcrumbs->addItem("Dashboard", $this->generateUrl("troiswa_back_admin"));
+        $breadcrumbs->addItem("Marque", $this->generateUrl("marque"));
+        $breadcrumbs->addItem($entity->getTitre());
+        */
+        $this->breadcrumbs(
+            [
+                'Marque' => $this->generateUrl("marque"),
+                $entity->getTitre() => ''
+            ]
+        );
+
+        /*
+                $breadcrumbs = $this->get("white_october_breadcrumbs");
+        // Simple example without parameter
+                $breadcrumbs->addItem("Home", "http://www.google.fr");
+                $breadcrumbs->addItem("Home", $this->get("router")->generate("troiswa_back_page_bo"));
+
+        // Simple example with parameter
+                $breadcrumbs->addItem("Home", $this->get("router")->generate("troiswa_back_page_bo", ['id' => 1]));
+                $breadcrumbs->addItem("Home", $this->generateUrl("troiswa_back_page_bo", ['id' => 1]));
+
+        // Simple example with parameter
+                $breadcrumbs->addRouteItem("Home", "troiswa_back_page_bo");
+                $breadcrumbs->addRouteItem("Hello", "troiswa_back_page_bo", [
+                    'id' => 1,
+                ]);
+
+        // Simple text
+                $breadcrumbs->addItem("Some text without link");
+        */
+
         //die(dump($entity));
         $em = $this->getDoctrine()->getManager();
 

@@ -33,10 +33,11 @@
                     {%  endblock %}
                     <small>Version 2.0</small>
                 </h1>
-                <ol class="breadcrumb">
-                    <li><a href="{{ path("troiswa_back_admin") }}"><i class="fa fa-dashboard"></i> Home</a></li>
-                    <li class="active">{{ app.request.attributes.get("_route") }}</li>
-                </ol>
+                {#<ol class="breadcrumb">#}
+                    {#<li><a href="{{ path("troiswa_back_admin") }}"><i class="fa fa-dashboard"></i> Home</a></li>#}
+                    {#<li class="active">{{ app.request.attributes.get("_route") }}</li>#}
+                {#</ol>#}
+                {{ wo_render_breadcrumbs() }}
             </section>
 
             <!-- Main content -->

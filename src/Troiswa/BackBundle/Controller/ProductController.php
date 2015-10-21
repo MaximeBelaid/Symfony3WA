@@ -67,6 +67,7 @@ class ProductController extends  Controller
             ->findBy(["product"=>$product->getId()],
                             ["dateCreation"=>"DESC"]);*/
         //die(dump($product));
+
         return $this->render('TroiswaBackBundle:Product:index.html.twig', array(
             'product'      => $product,
             "formCommentaire"=>$formulaireCommentaire->createView(),
