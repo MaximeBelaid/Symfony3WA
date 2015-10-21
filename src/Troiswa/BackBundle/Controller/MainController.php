@@ -11,6 +11,7 @@ namespace Troiswa\BackBundle\Controller;
 
 use MetzWeb\Instagram\Instagram;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -151,15 +152,50 @@ class MainController extends Controller
 
     public function adminAction()
     {
-        //die(dump($this->getParameter('client_id_instagram'));
-        $instagram = new Instagram(array(
-            'apiKey'      => $this->getParameter('client_id_instagram'),
-            'apiSecret'   => $this->getParameter('client_secret_instagram'),
-            'apiCallback' => $this->getParameter('callback_instagram')
-        ));
+        // Nom du fichier
+        $file = __DIR__."/../../../../app/cache/cache_instagram.txt";
+        $fs = new Filesystem();
+
+        $timeCache = time() - ( 1 * 60 );
+
+        //dump(date ("F d Y H:i:s.", filemtime($file)));
+        //dump(date ("F d Y H:i:s.", $timeCache));
+
+        //die(dump($timeCache, filemtime($file)));
+        //die(dump(filemtime($file),$timeCache));
+        // filemtime lit la date de dernière modification du fichier
+        if ($fs->exists($file) && ( filemtime($file) >  $timeCache  ))
+        {
+              // Récupération du contenu du fichier cacheinstagram
+              $mesImages = unserialize(file_get_contents($file));
+              //dump(file_get_contents($file));
+              //dump($mesImages);
+              //die('Utilisation du cache');
+        }
+        else
+        {
+              $instagram = new Instagram(array(
+                  'apiKey'      => $this->getParameter('client_id_instagram'),
+                  'apiSecret'   => $this->getParameter('client_secret_instagram'),
+                  'apiCallback' => $this->getParameter('callback_instagram')
+              ));
+
+              $instagram->setAccessToken($this->getParameter('token_instagram'));
+
+              $mesImages = $instagram->getUserMedia($this->getParameter('id_instagram'));
+                if (!$fs->exists($file))
+                {
+                    // Création du fichier et ajout des minutes du cache
+                    $fs->touch($file);
+                }
+
+              //dump(filemtime($file),date ("F d Y H:i:s.", filemtime($file)) );
+              // insertion dans le
+              $fs->dumpFile($file, serialize($mesImages));
+              //die('insta');
+        }
 
         //die(dump($instagram->getLoginUrl()));
-        $instagram->setAccessToken($this->getParameter('token_instagram'));
         //die(dump($instagram->getPopularMedia()));
         /*foreach($instagram->getPopularMedia()->data as $media)
         {
@@ -167,8 +203,7 @@ class MainController extends Controller
             echo "<img src='".$media->images->thumbnail->url."'>";
             //die;
         }*/
-        $mesImages = $instagram->getUserMedia($this->getParameter('id_instagram'));
-        //die(dump($mesImages));
+
 
         $em = $this->getDoctrine()->getManager();
         $productAll= $em->getRepository("TroiswaBackBundle:Product")

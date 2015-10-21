@@ -17,7 +17,12 @@ class MarqueType extends AbstractType
     {
         $builder
             ->add('titre')
-        ;
+            ->add('tags', "entity",[
+                "multiple"=>"true",
+                "class"=>"TroiswaBackBundle:Tag",
+                "choice_label"=>"nom",
+                ]
+            );
     }
     
     /**
