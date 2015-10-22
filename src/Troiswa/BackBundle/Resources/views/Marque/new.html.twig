@@ -2,7 +2,23 @@
 
 {% block content -%}
     <h1>Marque creation</h1>
-    {{ form(form) }}
+    {{ form_start(form) }}
+
+    {#{{ dump(form.tags) }}#}
+
+    <a href="#" id="add-another-tag">Ajouter un tag</a>
+    <ul id="tag-fields-list"
+        data-prototype="{{ form_widget(form.tags.vars.prototype)|e }}">
+        {% for tagField in form.tags %}
+            <li>
+                {{ form_errors(tagField) }}
+                {{ form_label(tagField, 'nom') }}
+                {{ form_widget(tagField) }}
+            </li>
+        {% endfor %}
+    </ul>
+    
+    {{ form_end(form) }}
 
     <ul class="record_actions">
         <li>
@@ -11,4 +27,35 @@
             </a>
         </li>
     </ul>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+        // keep track of how many tag fields have been rendered
+        var tagCount = '{{ form.tags|length }}';
+
+        jQuery(document).ready(function() {
+            jQuery('#add-another-tag').click(function(e) {
+                e.preventDefault();
+
+                var tagList = jQuery('#tag-fields-list');
+
+                // grab the prototype template
+                var newWidget = tagList.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your tags
+                // end name attribute looks like name="contact[tags][2]"
+                newWidget = newWidget.replace(/__name__/g, tagCount);
+                tagCount++;
+
+                // create a new list element and add it to the list
+                var newLi = jQuery('<li></li>').html(newWidget);
+                newLi.appendTo(tagList);
+            });
+        })
+
+
+    </script>
 {% endblock %}

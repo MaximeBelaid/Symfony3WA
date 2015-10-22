@@ -5,24 +5,41 @@ namespace Troiswa\BackBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Troiswa\BackBundle\Form\DataTransformer\TagTransformer;
+
 
 class MarqueType extends AbstractType
 {
+    private $em;
+
+    public function __construct($doctrine = null)
+    {
+        $this->em = $doctrine;
+    }
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        //die(dump($this->em));
         $builder
-            ->add('titre')
+            ->add('titre');
+            /*
             ->add('tags', "entity",[
                 "multiple"=>"true",
                 "class"=>"TroiswaBackBundle:Tag",
                 "choice_label"=>"nom",
                 ]
-            );
+            );*/
+        $builder
+            ->add(
+            $builder->create('tags','collection',array(
+                'type'=>new TagWithoutMarqueType(),
+                'allow_add'=>true)
+            )
+            ->addModelTransformer(new TagTransformer($this->em))
+        );
     }
     
     /**

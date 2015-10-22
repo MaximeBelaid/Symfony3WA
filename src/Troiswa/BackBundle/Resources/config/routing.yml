@@ -41,3 +41,7 @@ troiswa_back_commentaire:
 troiswa_back_commentaire_active:
     path:     /active/{id}
     defaults: { _controller: TroiswaBackBundle:Commentaire:active}
+
+troiswa_back_tag:
+    resource: "@TroiswaBackBundle/Resources/config/Routing/tag.yml"
+    prefix:   /tag

@@ -45,7 +45,7 @@ class Marque
     private $slug;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Tag")
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="marques", cascade={"persist", "remove"})
      * @ORM\JoinTable(name="marque_tag",
      *      joinColumns={
      *          @ORM\JoinColumn(name="marque_id", referencedColumnName="id")
@@ -149,6 +149,7 @@ class Marque
     {
         return $this->slug;
     }
+    
     /**
      * Constructor
      */
@@ -164,7 +165,7 @@ class Marque
      *
      * @return Marque
      */
-    public function addTags(\Troiswa\BackBundle\Entity\Tag $tag)
+    public function addTag(\Troiswa\BackBundle\Entity\Tag $tag)
     {
         $this->tags[] = $tag;
 
@@ -176,7 +177,7 @@ class Marque
      *
      * @param \Troiswa\BackBundle\Entity\Tag $tag
      */
-    public function removeTags(\Troiswa\BackBundle\Entity\Tag $tag)
+    public function removeTag(\Troiswa\BackBundle\Entity\Tag $tag)
     {
         $this->tags->removeElement($tag);
     }

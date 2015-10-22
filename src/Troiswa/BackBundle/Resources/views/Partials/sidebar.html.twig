@@ -63,7 +63,15 @@
                     <li><a href="{{ path("marque_new") }}"><i class="fa fa-circle-o"></i>Ajouter</a></li>
                 </ul>
             </li>
-
+            <li class="treeview">
+                <a href="">
+                    <i class="fa fa fa-book"></i> <span>Tags</span> <small class="label pull-right bg-red">new</small>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ path("tag") }}"><i class="fa fa-circle-o"></i> Tous</a></li>
+                    <li><a href="{{ path("tag") }}"><i class="fa fa-circle-o"></i>Ajouter</a></li>
+                </ul>
+            </li>
             <li >
                 <a href="{{ path("troiswa_back_page_contact") }}">
                     <i class="fa fa-pie-chart"></i>
@@ -87,6 +95,14 @@
                     <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
                     <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
                     <li><a href="pages/forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="">
+                    <i class="fa fa-th"></i> <span>Tags</span> <small class="label pull-right bg-green">10</small>
+                </a>
+                <ul class="treeview-menu">
+                    {{ render(controller("TroiswaBackBundle:Tag:renderAllTag")) }}
                 </ul>
             </li>
         </ul>

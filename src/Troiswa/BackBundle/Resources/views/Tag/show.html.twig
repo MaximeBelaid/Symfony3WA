@@ -1,0 +1,42 @@
+{% extends 'TroiswaBackBundle::layout-bo.html.twig' %}
+
+{% block content -%}
+
+    <h1>Marque</h1>
+    <table class="record_properties">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Titre</th>
+            <td>{{ entity.nom }}</td>
+        </tr>
+        <tr>
+            <th>MArques</th>
+            <td>
+                <ul>
+                    {% for marque in entity.marques %}
+                        <li> {{ marque.titre }} </li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('tag') }}">
+                Back to the list
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('tag_edit', { 'id': entity.id }) }}">
+                Edit
+            </a>
+        </li>
+        <li>{{ form(delete_form) }}</li>
+    </ul>
+{% endblock %}

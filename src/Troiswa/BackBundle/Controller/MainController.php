@@ -162,12 +162,13 @@ class MainController extends Controller
         //dump(date ("F d Y H:i:s.", $timeCache));
 
         //die(dump($timeCache, filemtime($file)));
-        //die(dump(filemtime($file),$timeCache));
+
         // filemtime lit la date de dernière modification du fichier
         if ($fs->exists($file) && ( filemtime($file) >  $timeCache  ))
         {
               // Récupération du contenu du fichier cacheinstagram
               $mesImages = unserialize(file_get_contents($file));
+
               //dump(file_get_contents($file));
               //dump($mesImages);
               //die('Utilisation du cache');
@@ -185,11 +186,12 @@ class MainController extends Controller
               $mesImages = $instagram->getUserMedia($this->getParameter('id_instagram'));
                 if (!$fs->exists($file))
                 {
-                    // Création du fichier et ajout des minutes du cache
+                    // Création du fichier
                     $fs->touch($file);
                 }
 
               //dump(filemtime($file),date ("F d Y H:i:s.", filemtime($file)) );
+
               // insertion dans le
               $fs->dumpFile($file, serialize($mesImages));
               //die('insta');

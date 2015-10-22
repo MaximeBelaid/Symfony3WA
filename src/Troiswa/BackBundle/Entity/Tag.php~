@@ -75,38 +75,4 @@ class Tag
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-
-    /**
-     * Add marque
-     *
-     * @param \Troiswa\BackBundle\Entity\Marque $marque
-     *
-     * @return Tag
-     */
-    public function addMarque(\Troiswa\BackBundle\Entity\Marque $marque)
-    {
-        $this->marques[] = $marque;
-        $marque->addTags($this);
-        return $this;
-    }
-
-    /**
-     * Remove marque
-     *
-     * @param \Troiswa\BackBundle\Entity\Marque $marque
-     */
-    public function removeMarque(\Troiswa\BackBundle\Entity\Marque $marque)
-    {
-        $this->marques->removeElement($marque);
-    }
-
-    /**
-     * Get marques
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getMarques()
-    {
-        return $this->marques;
-    }
 }

@@ -1,0 +1,14 @@
+{% extends 'TroiswaBackBundle::layout-bo.html.twig' %}
+
+{% block content -%}
+    <h1>Tag creation</h1>
+    {{ form(form) }}
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('tag') }}">
+                Back to the list
+            </a>
+        </li>
+    </ul>
+{% endblock %}

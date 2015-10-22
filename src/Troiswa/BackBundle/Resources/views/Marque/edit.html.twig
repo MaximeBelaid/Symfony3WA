@@ -13,3 +13,35 @@
         <li>{{ form(delete_form) }}</li>
     </ul>
 {% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+        // keep track of how many tag fields have been rendered
+        var tagCount = '{{ edit_form.tags|length }}';
+
+        jQuery(document).ready(function() {
+            jQuery('#add-another-tag').click(function(e) {
+                e.preventDefault();
+
+                var tagList = jQuery('#tag-fields-list');
+
+                // grab the prototype template
+                var newWidget = tagList.attr('data-prototype');
+                // replace the "__name__" used in the id and name of the prototype
+                // with a number that's unique to your tags
+                // end name attribute looks like name="contact[tags][2]"
+                newWidget = newWidget.replace(/\b(__name__)\b/g, tagCount);
+                tagCount++;
+
+                // create a new list element and add it to the list
+                var newLi = jQuery('<li></li>').html(newWidget);
+                newLi.appendTo(tagList);
+            });
+        })
+
+
+    </script>
+{% endblock %}

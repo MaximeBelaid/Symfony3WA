@@ -74,7 +74,7 @@ class MarqueController extends BaseController
      */
     private function createCreateForm(Marque $entity)
     {
-        $form = $this->createForm(new MarqueType(), $entity, array(
+        $form = $this->createForm(new MarqueType($this->getDoctrine()->getManager()), $entity, array(
             'action' => $this->generateUrl('marque_create'),
             'method' => 'POST',
         ));
