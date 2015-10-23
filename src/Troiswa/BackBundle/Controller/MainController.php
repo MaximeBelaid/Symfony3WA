@@ -152,6 +152,16 @@ class MainController extends Controller
 
     public function adminAction()
     {
+        $utility = $this->get('troiswa_back.util');
+        echo $utility->slugify('salut ludo');
+        echo '<br>';
+        echo $utility->getText();
+        //dump($utility);
+        //die;
+
+        //dump($this->getDoctrine()->getManager());
+        //dump($this->getDoctrine()->getManager());
+        //die;
         // Nom du fichier
         $file = __DIR__."/../../../../app/cache/cache_instagram.txt";
         $fs = new Filesystem();

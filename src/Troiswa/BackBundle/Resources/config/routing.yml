@@ -41,7 +41,26 @@ troiswa_back_commentaire:
 troiswa_back_commentaire_active:
     path:     /active/{id}
     defaults: { _controller: TroiswaBackBundle:Commentaire:active}
+    requirements:
+                id : \d+
+
 
 troiswa_back_tag:
     resource: "@TroiswaBackBundle/Resources/config/Routing/tag.yml"
     prefix:   /tag
+
+troiswa_back_panier:
+    path:     /panier
+    defaults: { _controller: TroiswaBackBundle:Cart:panier}
+
+troiswa_back_panier_produit:
+    path:     /panier/{id}
+    defaults: { _controller: TroiswaBackBundle:Cart:add}
+    requirements:
+                id : \d+
+
+troiswa_back_panier_produit_supprimer:
+    path:     /panier/supprimer/{id}
+    defaults: { _controller: TroiswaBackBundle:Cart:delete}
+    requirements:
+                id : \d+

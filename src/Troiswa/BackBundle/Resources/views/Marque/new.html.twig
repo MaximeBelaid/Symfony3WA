@@ -17,7 +17,7 @@
             </li>
         {% endfor %}
     </ul>
-    
+    {{ dump('hello') }}
     {{ form_end(form) }}
 
     <ul class="record_actions">
@@ -36,11 +36,12 @@
         // keep track of how many tag fields have been rendered
         var tagCount = '{{ form.tags|length }}';
 
-        jQuery(document).ready(function() {
-            jQuery('#add-another-tag').click(function(e) {
-                e.preventDefault();
+        $(document).ready(function() {
+            $('#add-another-tag').click(function(event) {
+                // Je stop le click afin d'éviter de suivre le href
+                event.preventDefault();
 
-                var tagList = jQuery('#tag-fields-list');
+                var tagList = $('#tag-fields-list');
 
                 // grab the prototype template
                 var newWidget = tagList.attr('data-prototype');
@@ -51,7 +52,7 @@
                 tagCount++;
 
                 // create a new list element and add it to the list
-                var newLi = jQuery('<li></li>').html(newWidget);
+                var newLi = $('<li></li>').html(newWidget);
                 newLi.appendTo(tagList);
             });
         })

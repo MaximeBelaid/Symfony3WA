@@ -34,13 +34,16 @@
                         <a class="btn btn-danger" href="{{ path("troiswa_back_product_delete",{id: product.id }) }}">
                             <i class="fa fa-edit"></i> Supprimer
                         </a>
-                        {#
-                        {{ form_start(delete_form) }}
-                        <button class="btn btn-danger">
-                            <i class="fa fa-trash"></i> Supprimer
-                        </button>
-                        {{ form_end(delete_form) }}
-                        #}
+                        <a class="btn btn-primary pull-right" href="{{ path('troiswa_back_panier_produit', {id:product.id}) }}">
+                            <i class="fa fa-edit"></i> Ajouter au panier
+                        </a>
+                {#
+                {{ form_start(delete_form) }}
+                <button class="btn btn-danger">
+                    <i class="fa fa-trash"></i> Supprimer
+                </button>
+                {{ form_end(delete_form) }}
+                #}
                 </div><!-- /.box-body -->
         </div><!-- /.box -->
         <h2><a href="{{ path("troiswa_back_product") }}">Back</a></h2>
@@ -77,6 +80,9 @@
             {% endfor %}
             </div><!-- /.box-footer -->
         </div><!-- ./col -->
+
+
+
 
 
 

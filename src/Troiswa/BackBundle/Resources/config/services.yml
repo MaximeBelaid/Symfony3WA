@@ -1,4 +1,16 @@
+parameters:
+ competences:
+  php: 1
+  html: 9
+  css: 4
+
 services:
 #    troiswa_back.example:
 #        class: Troiswa\BackBundle\Example
 #        arguments: [@service_id, "plain_value", %parameter%]
+
+  # mon premier service
+  troiswa_back.util:
+    class: Troiswa\BackBundle\Util\Utility
+    arguments: [%competences%, @doctrine.orm.entity_manager, "ceci est du texte"]
+

@@ -166,4 +166,17 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
 
         return $query->getSingleResult();
     }
+
+    public function findProductByIdProduct($idsProduct)
+    {
+        $query = $this->getEntityManager()->createQuery(
+            "
+    	    SELECT prod
+            FROM TroiswaBackBundle:Product prod
+            WHERE prod.id IN (:ids)
+            "
+        )->setParameter('ids', $idsProduct);
+
+        return $query->getResult();
+    }
 }
