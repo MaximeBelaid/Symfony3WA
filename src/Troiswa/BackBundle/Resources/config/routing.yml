@@ -64,3 +64,13 @@ troiswa_back_panier_produit_supprimer:
     defaults: { _controller: TroiswaBackBundle:Cart:delete}
     requirements:
                 id : \d+
+
+troiswa_back_login:
+    path: /login
+    defaults: { _controller:TroiswaBackBundle:Main:login }
+
+troiswa_back_login_check:
+    path: /login_check
+
+troiswa_back_logout:
+    path: /logout

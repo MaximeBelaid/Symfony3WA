@@ -40,7 +40,7 @@ class MyCommand extends ContainerAwareCommand
         }
         else
         {
-            $output->writeln('Il y a ' . $nbproducts . ' produits qui ont une qunatité inférieure à' . $prenom);
+            $output->writeln('Il y a ' . $nbproducts . ' produits qui ont une quantité inférieure à' . $prenom);
         }
 
         // Récupération du service mail

@@ -14,3 +14,6 @@ services:
     class: Troiswa\BackBundle\Util\Utility
     arguments: [%competences%, @doctrine.orm.entity_manager, "ceci est du texte"]
 
+  troiswa_back.cart:
+    class: Troiswa\BackBundle\Util\Cart
+    arguments: [@doctrine.orm.entity_manager, @session]

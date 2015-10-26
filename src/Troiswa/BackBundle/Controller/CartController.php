@@ -12,6 +12,8 @@ class CartController extends Controller
 
     public function addAction(Product $product, Request $request)
     {
+
+     /*
         $session = $request->getSession();
 
         //$allProducts = [];
@@ -45,12 +47,23 @@ class CartController extends Controller
         $session->set('panier', $allProducts);
         //die(dump($session->get('panier')));
         //die('traitement du produit dans le panier');
+ */
+        $panier = $this->get('troiswa_back.cart');
+        //die(dump($panier));
+        $qty = $request->request->getInt("qty",1); //$_POST
+        // ou
+        //$qty = $request->request->getInt("qty",1); //$_GET
+        $panier->add($product,$qty );
+
         return $this->redirectToRoute('troiswa_back_panier');
+
+
     }
 
 
     public function panierAction(Request $request)
     {
+        /*
         $session = $request->getSession();
         $allProducts = [];
 
@@ -62,6 +75,16 @@ class CartController extends Controller
         }
         //die(dump($session->get('panier'),$allProducts));
         return $this->render("TroiswaBackBundle:Cart:panier.html.twig", ['allProducts' => $allProducts, 'quantity' => $session->get('panier')]);
+        */
+
+
+        $panier = $this->get('troiswa_back.cart');
+
+        return $this->render("TroiswaBackBundle:Cart:panier.html.twig",
+            [
+                'allProducts' => $panier->getProducts(),
+                'qtyProducts' => $panier->getSessionPanier()
+            ]);
     }
 
     public function deleteAction(Product $product, Request $request)

@@ -28,15 +28,20 @@
                     <small>Date <cite title="Source Title">{{ product.dateCreated|date("d/m/Y")  }}</cite></small>
                     <br>
                 </blockquote>
+                <form method="POST" action="{{ path('troiswa_back_panier_produit', {id:product.id}) }}">
+                        <input type="number" class="form-control text-center" name="qty" value="1">
+                    <button class="btn btn-primary pull-right">
+                        <i class="fa fa-edit"></i> Ajouter au panier
+                    </button>
+                </form>
                         <a class="btn btn-success" href="{{ path("troiswa_back_product_edit",{id: product.id }) }}">
                             <i class="fa fa-edit"></i> Editer
                         </a>
                         <a class="btn btn-danger" href="{{ path("troiswa_back_product_delete",{id: product.id }) }}">
                             <i class="fa fa-edit"></i> Supprimer
                         </a>
-                        <a class="btn btn-primary pull-right" href="{{ path('troiswa_back_panier_produit', {id:product.id}) }}">
-                            <i class="fa fa-edit"></i> Ajouter au panier
-                        </a>
+
+
                 {#
                 {{ form_start(delete_form) }}
                 <button class="btn btn-danger">

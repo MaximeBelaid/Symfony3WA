@@ -29,7 +29,7 @@
             </td>
             <td data-th="Price">{{ product.price }} €</td>
             <td data-th="Quantity">
-                <input type="number" class="form-control text-center" value={{ quantity[product.id] }}>
+                <input type="number" class="form-control text-center" value={{ qtyProducts[product.id] }}>
             </td>
             <td data-th="Subtotal" class="text-center">{{ product.price * 1 }} €</td>
             <td class="actions" data-th="">
@@ -37,7 +37,7 @@
                 <a href="{{ path("troiswa_back_panier_produit_supprimer", {id : product.id}) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></a>
             </td>
         </tr>
-            {% set total = total + product.price * quantity[product.id] %}
+            {% set total = total + product.price * qtyProducts[product.id] %}
         {% endfor %}
 
         </tbody>
