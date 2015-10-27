@@ -1,0 +1,107 @@
+{% extends 'TroiswaBackBundle::layout-bo.html.twig' %}
+
+{% block content %}
+    <div class="register-box">
+
+        <div class="register-box-body">
+            <p class="login-box-msg">Register a new membership</p>
+            {{ form_start(formUser,{attr:{novalidate:"novalidate"}}) }}
+                <div class="form-group has-feedback">
+                    {{ form_widget(formUser.firstname,{attr:{class:"form-control", placeholder: "Firstname"}}) }}
+                    {{ form_errors(formUser.firstname) }}
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    {{ form_widget(formUser.lastname,{attr:{class:"form-control", placeholder: "Lastname"}}) }}
+                    {{ form_errors(formUser.lastname) }}
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    {{ form_widget(formUser.email,{attr:{class:"form-control", placeholder: "Email"}}) }}
+                    {{ form_errors(formUser.email) }}
+                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    {{ form_widget(formUser.login,{attr:{class:"form-control", placeholder: "Login"}}) }}
+                    {{ form_errors(formUser.login) }}
+                    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    {{ form_widget(formUser.gender,{attr:{class:"form-control", placeholder: "Gender"}}) }}
+                    {{ form_errors(formUser.gender) }}
+                    <span class="glyphicon glyphicon-sort form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    {{ form_widget(formUser.address,{attr:{class:"form-control", placeholder: "Address"}}) }}
+                    {{ form_errors(formUser.address) }}
+                    <span class="glyphicon glyphicon-home form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    {{ form_widget(formUser.phone,{attr:{class:"form-control", placeholder: "Phone"}}) }}
+                    {{ form_errors(formUser.phone) }}
+                    <span class="glyphicon glyphicon-earphone form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    {{ form_widget(formUser.groupes,{attr:{class:"form-control"}}) }}
+                    {{ form_errors(formUser.groupes) }}
+                    <span class="form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    {{ form_widget(formUser.password.first,{attr:{class:"form-control", placeholder: "Password"}}) }}
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
+                <div class="form-group has-feedback">
+                    {{ form_widget(formUser.password.second,{attr:{class:"form-control", placeholder: "Retype password"}}) }}
+                    {{ form_errors(formUser.password.first) }}
+                    <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8">
+                        <div class="checkbox icheck">
+                            <label>
+                                <input type="checkbox"> I agree to the <a href="#">terms</a>
+                            </label>
+                        </div>
+                    </div><!-- /.col -->
+                    <div class="col-xs-4">
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                    </div><!-- /.col -->
+                </div>
+            {{ form_end(formUser) }}
+
+            <div class="social-auth-links text-center">
+                <p>- OR -</p>
+                <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign up using Facebook</a>
+                <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign up using Google+</a>
+            </div>
+
+            <a href="{{ path('troiswa_back_login') }}" class="text-center">I already have a membership</a>
+        </div><!-- /.form-box -->
+
+
+    </div><!-- /.register-box -->
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- iCheck -->
+    <link rel="stylesheet" href="{{ asset('plugins/iCheck/all.css') }}">
+{% endblock %}
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <!-- iCheck -->
+    <script src=" {{ asset('plugins/iCheck/icheck.min.js') }}"></script>
+
+    <script>
+        $(function () {
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' // optional
+            });
+        });
+    </script>
+{% endblock %}

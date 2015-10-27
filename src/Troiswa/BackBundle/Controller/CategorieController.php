@@ -13,7 +13,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Troiswa\BackBundle\Entity\Categorie;
 use Symfony\Component\HttpFoundation\Request;
 use Troiswa\BackBundle\Form\CategorieType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
+/**
+ * @Security("has_role('ROLE_ADMIN')")
+ */
 class CategorieController extends Controller
 {
     public function indexAction()

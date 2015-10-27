@@ -18,6 +18,7 @@ use Troiswa\BackBundle\Form\CommentaireType;
 use Troiswa\BackBundle\Form\ProductType;
 use Troiswa\BackBundle\Repository\CategorieRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ProductController extends  Controller
 {
@@ -97,6 +98,14 @@ class ProductController extends  Controller
 
     public function createAction(Request $request)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous n'avez pas l'autorisation pour accéder à cette page");
+
+        /* Même chose
+        if (false === $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+              throw $this->createAccessDeniedException('Vous n'avez l'autorisation pour accéder à cette page');
+        }
+        */
+
         $product = new Product();
         //$product->setTitle("Hello");
         /*
@@ -124,6 +133,9 @@ class ProductController extends  Controller
         return $this->render("TroiswaBackBundle:Product:create.html.twig",["formProduct"=>$formulaireProduct->createView()]);
     }
 
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
     public function editAction($id, Request $request)
     {
         $em=$this->getDoctrine()->getManager();

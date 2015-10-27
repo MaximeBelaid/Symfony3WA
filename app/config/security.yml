@@ -4,7 +4,15 @@ security:
 
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
-        Troiswa\BackBundle\Entity\User: plaintext
+
+        #Troiswa\BackBundle\Entity\User:
+        #		algorithm: sha512
+        #    encode_as_base64: true
+        #    iterations: 1000
+
+        Troiswa\BackBundle\Entity\User:
+            algorithm: bcrypt
+            cost: 15
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
@@ -15,11 +23,22 @@ security:
                     admin:
                         password: admin
                         roles: ROLE_ADMIN #un role commence toujours par ROLE_
-                    test: { password: test, roles: ROLE_COMMERCIAL }
-                    superadmin: { password: azerty, roles: ROLE_SUPER_ADMIN }
+                    test: { password: test, roles: [ROLE_COMMERCIAL] }
+                    superadmin: { password: azerty, roles: [ROLE_SUPER_ADMIN] }
 
         user_admin:
-            entity: { class: Troiswa\BackBundle\Entity\User, property: login }
+            #entity: { class: Troiswa\BackBundle\Entity\User, property: login } #connection avec le login
+            #entity: { class: Troiswa\BackBundle\Entity\User, property: email } #connection avec l'email
+            entity: { class: Troiswa\BackBundle\Entity\User }
+
+
+        mix:
+            chain:
+                provider: [in_memory, user_admin]
+
+        #entity:
+            #	class: Troiswa\BackBundle\Entity\User
+                #  property: login
 
     role_hierarchy:
         # si j'essaye d'accéder à /product en tant que commercial sachant qu'un commercial peut y accéder
@@ -80,4 +99,4 @@ security:
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
 
     access_control:
-        - { path: ^/admin, role: ROLE_ADMIN }
+        - { path: ^/admin, role: ROLE_COMMERCIAL }

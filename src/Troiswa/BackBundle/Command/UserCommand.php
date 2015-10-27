@@ -28,7 +28,13 @@ class UserCommand extends ContainerAwareCommand
         $mdp = $input->getArgument('mdp');
 
         $faker = \Faker\Factory::create('fr_FR');
+
         $user = new User();
+
+        $factory = $this->getContainer()->get('security.encoder_factory');
+        $encoder = $factory->getEncoder($user); // Je récupère l'encoder de la class Troiswa\BackBundle\Entity\User
+        $newPassword = $encoder->encodePassword($mdp, $user->getSalt());
+
         $user->setFirstname($faker->firstName);
         $user->setLastname($faker->lastName);
         $user->setEmail($faker->email);
@@ -37,11 +43,11 @@ class UserCommand extends ContainerAwareCommand
         $user->setPhone($faker->phoneNumber);
 
         $user->setLogin($login);
-        $user->setPassword($mdp);
+        $user->setPassword($newPassword);
 
         $em->persist($user);
         $em->flush();
 
-        $output->writeln('User enregistré !');
+        $output->writeln('L\'utilisateur '.$login.' a bien été enregistré');
     }
 }

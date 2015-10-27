@@ -15,11 +15,13 @@
             <div class="box-header">
                <h3 class="box-title">Table des produits</h3>
                <div class="box-tools">
-                  <div >
-                     <a class="btn btn-primary" href="{{ path("troiswa_back_product_create") }}">
-                        <i class="fa fa-play"></i> Ajouter
-                     </a>
-                  </div>
+                  {% if is_granted('ROLE_ADMIN') %}
+                     <div >
+                        <a class="btn btn-primary" href="{{ path("troiswa_back_product_create") }}">
+                           <i class="fa fa-play"></i> Ajouter
+                        </a>
+                     </div>
+                  {% endif %}
                </div>
             </div><!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
@@ -48,9 +50,11 @@
                               <a class="btn btn-info" href="{{ path("troiswa_back_product_show",{id: product.id }) }}">
                                  <i class="fa fa-play"></i> Voir
                               </a>
-                              <a class="btn btn-success" href="{{ path("troiswa_back_product_edit",{id: product.id }) }}">
-                                 <i class="fa fa-edit"></i> Editer
-                              </a>
+                              {% if is_granted('ROLE_ADMIN') %}
+                                 <a class="btn btn-success" href="{{ path("troiswa_back_product_edit",{id: product.id }) }}">
+                                    <i class="fa fa-edit"></i> Editer
+                                 </a>
+                              {% endif %}
                               <a class="btn btn-danger delete" href="{{ path("troiswa_back_product_delete",{id: product.id }) }}">
                                  <i class="fa fa-trash"></i> Supprimer
                               </a>

@@ -2,21 +2,15 @@
 
 namespace Troiswa\BackBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
-
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="Troiswa\BackBundle\Repository\UserRepository")
- * @UniqueEntity(fields = {"email"}, message="L'email doit être unique")
- * @UniqueEntity(fields = {"login"}, message="Le login doit être unique")
  */
 class User implements UserInterface
 {
@@ -47,7 +41,6 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=250, unique=true)
-     * @Assert\Email()
      */
     private $email;
 
@@ -101,7 +94,6 @@ class User implements UserInterface
     public function __construct()
     {
         $this->salt = hash('sha512', (uniqid(null, true))); // création d'un salt pour chaque utilisateur
-        $this->groupes = new ArrayCollection();
     }
 
     /**
@@ -325,16 +317,7 @@ class User implements UserInterface
     public function getRoles()
     {
         // TODO: Implement getRoles() method.
-        //return ["ROLE_ADMIN"];
-        //die(dump($this->groupes, $this->groupes->toArray()));
-        $roles = [];
-        foreach($this->groupes as $group)
-        {
-            array_push($roles, $group->getRole());
-        }
-        return $roles;
-
-        //return $this->groupes->toArray();
+        return ["ROLE_ADMIN"];
     }
 
     /**
@@ -372,52 +355,5 @@ class User implements UserInterface
         // TODO: Implement eraseCredentials() method.
         return null;
     }
-
-    /**
-     * Set salt
-     *
-     * @param string $salt
-     *
-     * @return User
-     */
-    public function setSalt($salt)
-    {
-        $this->salt = $salt;
-
-        return $this;
-    }
-
-    /**
-     * Add groupe
-     *
-     * @param \Troiswa\BackBundle\Entity\Groupe $groupe
-     *
-     * @return User
-     */
-    public function addGroupe(\Troiswa\BackBundle\Entity\Groupe $groupe)
-    {
-        $this->groupes[] = $groupe;
-
-        return $this;
-    }
-
-    /**
-     * Remove groupe
-     *
-     * @param \Troiswa\BackBundle\Entity\Groupe $groupe
-     */
-    public function removeGroupe(\Troiswa\BackBundle\Entity\Groupe $groupe)
-    {
-        $this->groupes->removeElement($groupe);
-    }
-
-    /**
-     * Get groupes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getGroupes()
-    {
-        return $this->groupes;
-    }
 }
+
