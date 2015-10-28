@@ -30,9 +30,12 @@ class UserRepository extends EntityRepository implements UserProviderInterface
     public function loadUserByUsername($loginOrEmail)
     {
         $user = $this->createQueryBuilder('u')
+            ->select('u, g')
+            ->join('u.groupes', 'g')
             ->where('u.login = :loginemail OR u.email = :loginemail')
             ->setParameter('loginemail', $loginOrEmail)
             ->getQuery()->getOneOrNullResult();
+
 
         if (null == $user)
         {
@@ -70,7 +73,7 @@ class UserRepository extends EntityRepository implements UserProviderInterface
             );
         }
 
-        return $this->find($user->getId());
+        return $this->loadUserByUsername($user->getLogin());
     }
 
     /**

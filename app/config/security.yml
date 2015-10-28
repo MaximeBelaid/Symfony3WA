@@ -54,11 +54,11 @@ security:
             security: false
 
         loginfirewall:
-            pattern: ^/admin/login$
+            pattern: ^/(fr|en)/admin/login$
             security: false
 
         main:
-            pattern: ^/admin
+            pattern: ^/(fr|en)/admin
             anonymous: false
             # activate different ways to authenticate
 

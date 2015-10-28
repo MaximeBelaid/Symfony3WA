@@ -8,6 +8,8 @@ use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Troiswa\BackBundle\Validator\MotDePasse;
 
 
 /**
@@ -62,6 +64,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="password", type="string", length=250)
+     * @MotDePasse(message="Attention il faut {{ nb }} caractères", min=8)
      */
     private $password;
 
@@ -419,5 +422,22 @@ class User implements UserInterface
     public function getGroupes()
     {
         return $this->groupes;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function isValidate(ExecutionContextInterface $context)
+    {
+        if ($this->getLogin() == "admin" ) {
+            $context->buildViolation('Vous ne pouvez pas prendre le login admin')
+                ->atPath('login')
+                ->addViolation();
+        }
+        if ($this->getPassword() == "admin") {
+            $context->buildViolation('Vous ne pouvez pas prendre le mdp admin')
+                ->atPath('password')
+                ->addViolation();
+        }
     }
 }

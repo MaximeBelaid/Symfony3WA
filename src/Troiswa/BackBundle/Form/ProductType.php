@@ -47,6 +47,8 @@ class ProductType extends AbstractType
                     return $er->createQueryBuilder('m')
                         ->orderBy('m.titre', 'ASC');
                 }]);
+
+
     }
     
     /**

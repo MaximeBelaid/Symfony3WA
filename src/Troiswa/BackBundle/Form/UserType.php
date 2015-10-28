@@ -5,7 +5,11 @@ namespace Troiswa\BackBundle\Form;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Troiswa\BackBundle\Form\Type\GenderType;
+use Troiswa\BackBundle\Form\Type\TelType;
 use Troiswa\BackBundle\Repository\CategorieRepository;
 
 class UserType extends AbstractType
@@ -17,13 +21,13 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstname')
+            ->add('firstname', 'text')
             ->add('lastname')
             ->add('email')
             ->add('login')
-            ->add('gender')
+            ->add('gender', 'gender')
             ->add('address')
-            ->add('phone')
+            ->add('phone', new TelType())
             ->add('groupes', "entity",[
                     "multiple"=>"true",
 
@@ -40,6 +44,9 @@ class UserType extends AbstractType
                 'second_options' => array('label' => 'Repeat Password'),
             ));
 
+        // Greffer un événement PRE_SET_DATA (avant l'affichage du formulaire)*
+        // On lance la méthode editUser
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'editUser']);
     }
 
     /**
@@ -57,5 +64,20 @@ class UserType extends AbstractType
     public function getName()
     {
         return 'troiswa_backbundle_register';
+    }
+
+    public function editUser(FormEvent $event)
+    {
+        //die('ok');
+        $user = $event->getData(); // objet user
+        $form = $event->getForm(); // le formulaire
+
+
+        //die(dump($user, $form));
+        // Si j'ai un utilisateur et que l'id de l'utilisateur existe = je suis entrain de faire une modification
+        if ($user && $user->getId())
+        {
+            $form->remove('login');
+        }
     }
 }

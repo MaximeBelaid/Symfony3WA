@@ -6,6 +6,7 @@ namespace Troiswa\BackBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Troiswa\BackBundle\Entity\User;
 use Troiswa\BackBundle\Form\UserType;
 
@@ -16,7 +17,12 @@ class UserController extends  Controller
     {
         $user = new User();
 
-        $formulaireUser = $this->createForm(new UserType(), $user);
+        $formulaireUser = $this->createForm(new UserType(), $user)
+            ->add('agree', 'checkbox', [
+                'label'  => " I agree to the terms",
+                "constraints" => new NotBlank(['message' => 'Vous devez accepter']),
+                "mapped" => false // permet d'ajouter un champ non mappé de l'entité User
+            ]);
         $formulaireUser->handleRequest($request);
         if($formulaireUser->isValid()){
 
@@ -25,7 +31,6 @@ class UserController extends  Controller
             $newPassword = $encoder->encodePassword($user->getPassword(), $user->getSalt());
 
             $user->setPassword($newPassword);
-
 
             $em= $this->getDoctrine()->getManager(); // Récupérer doctrine (se connecter à la base)
             $em->persist($user); // A partir de ce moment-là Doctrine le surveille

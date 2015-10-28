@@ -1,0 +1,3 @@
+product.title: "Ceci est la page qui liste tous les produits\nlorem\nlorem\nlorel\n"
+product.subtitle: 'Ceci est du texte'
+product.count: '{0} There are no apples|{1} There is one apple|]1,Inf[ There are %count% apples'

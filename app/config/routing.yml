@@ -1,4 +1,6 @@
 troiswa_back:
     resource: "@TroiswaBackBundle/Resources/config/routing.yml"
-    prefix:   /admin
+    prefix:   /{_locale}/admin
+    requirements:
+        _locale: fr|en
 

@@ -5,6 +5,7 @@ namespace Troiswa\BackBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Troiswa\BackBundle\Validator\PositionCategory;
 
 /**
  * Categorie
@@ -57,7 +58,7 @@ class Categorie
      * @Assert\Regex(
      *     pattern="/^(^|[^- \t])\s*\d+$/",
      *     message="La position doit être positive")
-     *
+     * @PositionCategory()
      * @ORM\Column(name="position", type="smallint")
      */
     private $position;

@@ -9,6 +9,31 @@
 {% endblock %}
 
 {% block content %}
+   <h1>
+      {{"product.title"|trans}}
+   </h1>
+
+   {% set count = 15 %}
+   {% transchoice count %}
+      product.count
+   {% endtranschoice %}
+
+   <h2>
+      {% trans %}
+            product.subtitle
+      {% endtrans %}
+   </h2>
+
+
+   {% transchoice 15 %}
+      product.count
+   {% endtranschoice %}
+
+   {% transchoice products|length %}
+      product.count
+   {% endtranschoice %}
+
+
    <div class="row">
       <div class="col-xs-12">
          <div class="box">
@@ -38,7 +63,17 @@
                   </tr>
                   {% for key,product in products %}
                      <tr>
-                        <td> {{  product.id}}</td>
+                        <td> {{  product.id}}
+
+
+
+
+
+
+
+
+
+                        </td>
                         <td> {{ product.title }}</td>
                         <td> {{ product.dateCreated|date("d/m/Y")  }}</td>
                         <td> {{ product.description|raw  }}</td>
